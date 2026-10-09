@@ -1,0 +1,36 @@
+---
+description: "fstack model role configuration - copy to ~/.cursor/rules/"
+alwaysApply: true
+---
+
+# fstack Model Roles
+
+This file configures which models flash-mode uses for different types of work.
+Copy this to `~/.cursor/rules/fstack-models.mdc` and customize.
+
+## Investigation
+Model: claude-sonnet
+Use for: Understanding existing code, tracing behavior, /how-ui, /why-this-design
+
+## Implementation
+Model: claude-sonnet
+Use for: Writing and modifying code, Figma-to-code, bug fixes
+
+## Judgment
+Model: claude-opus
+Use for: Design decisions, architecture choices, complex tradeoffs
+
+## Review
+Models: claude-opus, claude-sonnet
+Use for: Multi-perspective critique, code review, accessibility audit
+
+## Prose
+Model: claude-opus
+Use for: UX copy, documentation, PR descriptions, /unslop
+
+## Notes
+
+- To use the chat's current model, set to `auto` or `inherit-parent`
+- Review role accepts multiple models for diverse perspectives
+- Run `/setup-fstack` to auto-detect your available models
+- Adjust based on your Cursor subscription and budget

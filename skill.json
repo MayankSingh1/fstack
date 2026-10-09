@@ -1,0 +1,73 @@
+{
+  "name": "fstack",
+  "displayName": "fstack (flash stack)",
+  "description": "Agent skills for product designers, UX designers, UI designers and frontend developers. Covers research, design, frontend build, review, PRs, and shipping. Modeled on pstack by Lauren Tan (@poteto).",
+  "version": "1.0.0",
+  "author": "fstack contributors",
+  "license": "MIT",
+  "repository": "https://github.com/fstack-plugin/fstack",
+  "keywords": [
+    "design",
+    "ux",
+    "ui",
+    "frontend",
+    "figma",
+    "accessibility",
+    "code-review",
+    "shipping",
+    "design-system",
+    "cursor-plugin"
+  ],
+  "platforms": [
+    "cursor",
+    "claude",
+    "codex",
+    "windsurf",
+    "copilot"
+  ],
+  "skills": {
+    "router": [
+      "skills/flash-mode/SKILL.md"
+    ],
+    "playbooks": {
+      "design": [
+        "skills/playbooks/design/problem-framing/SKILL.md",
+        "skills/playbooks/design/user-flows-ia/SKILL.md",
+        "skills/playbooks/design/wireframe-to-hifi/SKILL.md",
+        "skills/playbooks/design/design-critique/SKILL.md",
+        "skills/playbooks/design/design-system/SKILL.md",
+        "skills/playbooks/design/ux-copy/SKILL.md"
+      ],
+      "frontend": [
+        "skills/playbooks/frontend/figma-to-code/SKILL.md",
+        "skills/playbooks/frontend/visual-parity/SKILL.md",
+        "skills/playbooks/frontend/accessibility-audit/SKILL.md",
+        "skills/playbooks/frontend/responsive-cross-browser/SKILL.md",
+        "skills/playbooks/frontend/component-refactor/SKILL.md",
+        "skills/playbooks/frontend/bug-fix/SKILL.md"
+      ],
+      "shipping": [
+        "skills/playbooks/shipping/open-pr/SKILL.md",
+        "skills/playbooks/shipping/babysit-pr/SKILL.md",
+        "skills/playbooks/shipping/handoff-note/SKILL.md"
+      ]
+    },
+    "principles": [
+      "skills/principles/start-from-user-task/SKILL.md",
+      "skills/principles/prove-on-real-screen/SKILL.md",
+      "skills/principles/tokens-over-hardcoded/SKILL.md",
+      "skills/principles/accessible-by-default/SKILL.md",
+      "skills/principles/smallest-change/SKILL.md",
+      "skills/principles/states-are-design/SKILL.md",
+      "skills/principles/design-system-consistency/SKILL.md"
+    ],
+    "helpers": [
+      "skills/helpers/how-ui/SKILL.md",
+      "skills/helpers/why-this-design/SKILL.md",
+      "skills/helpers/critique/SKILL.md",
+      "skills/helpers/a11y/SKILL.md",
+      "skills/helpers/unslop/SKILL.md",
+      "skills/helpers/setup-fstack/SKILL.md"
+    ]
+  }
+}
