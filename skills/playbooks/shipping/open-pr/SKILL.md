@@ -79,8 +79,24 @@ PLAYBOOK: Open a PR
   └─ CI is passing (or expected to pass)
   └─ Ready for review
 
+□ Step 11: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: PR opened with complete description, visual evidence, and passing CI
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "PR opened: [title]" |
+| playbook_name | "open-pr" |
+| summary | PR #N opened for [feature/fix] |
+| files | Files in the PR |
+| prs | PR number and URL |
+| evidence | Screenshot evidence, checklist status |
 
 ## PR Description Template
 

@@ -64,8 +64,23 @@ PLAYBOOK: Design Critique
   └─ Re-review changed areas
   └─ Confirm issues are resolved
 
+□ Step 9: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Critique document with categorized feedback and updated designs
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Design critique: [subject]" |
+| playbook_name | "design-critique" |
+| summary | Key feedback and changes made |
+| files | Design files updated |
+| evidence | Critique document, before/after screenshots |
 
 ## Critique Framework
 

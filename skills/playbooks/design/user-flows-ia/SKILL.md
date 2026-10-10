@@ -65,8 +65,23 @@ PLAYBOOK: User Flows & Information Architecture
   └─ Can users navigate via keyboard?
   └─ Is focus order logical?
 
+□ Step 10: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: User flow diagram and sitemap showing all navigation paths
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "User flows & IA: [subject]" |
+| playbook_name | "user-flows-ia" |
+| summary | Key flows and IA structure defined |
+| files | Flow diagrams, sitemap files |
+| evidence | Flow documentation, navigation structure |
 
 ## User Flow Notation
 

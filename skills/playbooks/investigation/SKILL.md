@@ -51,8 +51,23 @@ PLAYBOOK: Investigation
   └─ Deeper dives available via /how-ui or /why-this-design
   └─ Gaps in documentation
 
+□ Step 6: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Cited answer with source references distinguishing fact from inference
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Investigation: [question answered]" |
+| playbook_name | "investigation" |
+| summary | Key finding and confidence level |
+| files | N/A (read-only) |
+| evidence | Cited sources, file:line references |
 
 ## Question routing
 

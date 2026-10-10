@@ -115,6 +115,11 @@ After `/flash-mode` is invoked:
 | Responsive & Cross-Browser | responsive, mobile, Safari | Ensure cross-device/browser consistency |
 | Component Refactor | refactor, extract, restructure | Safely refactor components |
 | Bug Fix | fix bug, broken, not working | Systematic bug fixing |
+| Feature | build feature, implement | Full feature end-to-end |
+| Perf Issue | slow, performance | Performance diagnosis and fix |
+| Hillclimb | improve metric, target | Sustained metric improvement |
+| Runtime Forensics | memory leak, CPU, frozen | Diagnose live runtime issues |
+| Trace Forensics | analyze trace, profile | Analyze captured profiles |
 
 ### Shipping Playbooks
 
@@ -132,21 +137,72 @@ After `/flash-mode` is invoked:
 | Session Pickup | continue, pick up, resume | Resume prior agent's work cleanly |
 | Pause Safely | pause, stop, stepping away | Save progress at atomic boundary |
 
-### Helper Skills
+### Advanced Playbooks
+
+| Playbook | Trigger Patterns | Purpose |
+|----------|------------------|---------|
+| Autonomous Run | finish without me, autonomous | Complete task unattended |
+| Multi-Phase Plan | multiple PRs, stacked | Work spanning multiple PRs |
+| Orchestrate | coordinate, manage workstreams | Project-scale coordination |
+| Autopilot Full | land these PRs | Queue of independent PRs to merge |
+| Autopilot Stack | land as stack | Queue as linear reviewed stack |
+| Authoring a Skill | write a skill | Create or edit SKILL.md files |
+
+### Helper Skills — Understanding
 
 | Skill | Command | Purpose |
 |-------|---------|---------|
 | How UI | `/how-ui` | Trace how screens/components work |
 | Why This Design | `/why-this-design` | Find evidence for design decisions |
 | Teach | `/teach` | Combines how + why into plain explanation |
+| Recall | `/recall` | Catch up from recent transcripts and git state |
+
+### Helper Skills — Review & Quality
+
+| Skill | Command | Purpose |
+|-------|---------|---------|
 | Critique | `/critique` | Multi-reviewer feedback (act on/consider/noted/dismissed) |
 | A11y | `/a11y` | Quick accessibility check |
 | Unslop | `/unslop` | Remove AI-generated fluff from text |
+| Blast Radius | `/blast-radius` | What could this change break |
+| No Comments | `/no-comments` | Clean up unnecessary comments |
+
+### Helper Skills — Architecture & Comparison
+
+| Skill | Command | Purpose |
+|-------|---------|---------|
+| Architect | `/architect` | Design component API before building |
+| Arena | `/arena` | Competing attempts, pick best, graft ideas |
+| Swarm | `/swarm` | Parallel workers across slices |
+| TDD | `/tdd` | Test-driven development for UI |
+
+### Helper Skills — Meta & Learning
+
+| Skill | Command | Purpose |
+|-------|---------|---------|
+| Reflect | `/reflect` | Turn learnings into skill edits |
+| Automate Me | `/automate-me` | Create personal mode from patterns |
+| Correct | `/correct` | Stop repeated mistakes |
+| Figure It Out | `/figure-it-out` | Custom playbook when none fits |
+
+### Helper Skills — Writing & Code
+
+| Skill | Command | Purpose |
+|-------|---------|---------|
+| Technical Writing | `/technical-writing` | Docs, READMEs, PRs, commit messages |
+| TypeScript Best Practices | `/typescript-best-practices` | TypeScript/React patterns |
+| Bro | `/bro` | Restate the last message simpler |
+| Changelog Notetaker | `/changelog-notetaker` | Record task in project changelog |
+
+### Helper Skills — Setup & Reference
+
+| Skill | Command | Purpose |
+|-------|---------|---------|
 | Setup fstack | `/setup-fstack` | Configure model roles |
 | Create Verification Skill | `/create-verification-skill` | Generate project-local verification skill |
 | Maintain Verification Skill | `/maintain-verification-skill` | Keep verification skill current |
 | Show Me Your Work | `/show-me-your-work` | Decision log for auditable trail |
-| fstack Help | `/fstack-help` | Maps questions to the right skill |
+| Flash Help | `/flash-help` | Maps questions to the right skill |
 
 ### Principles
 
@@ -262,7 +318,7 @@ Model: claude-opus
 /critique review this design for usability issues
 /a11y check this form for accessibility
 /unslop clean up this PR description
-/fstack-help what skill should I use for X?
+/flash-help what skill should I use for X?
 /create-verification-skill
 ```
 
@@ -292,7 +348,7 @@ fstack/
     │   ├── prototype/                  # Throwaway sketches
     │   ├── session-pickup/             # Resume prior work
     │   └── pause-safely/               # Save progress cleanly
-    └── helpers/                        # 11 helper skills
+    └── helpers/                        # 26 helper skills
         ├── how-ui/
         ├── why-this-design/
         ├── teach/
@@ -303,7 +359,7 @@ fstack/
         ├── create-verification-skill/
         ├── maintain-verification-skill/
         ├── show-me-your-work/
-        └── fstack-help/
+        └── flash-help/
 ```
 
 ## Validation
@@ -320,6 +376,67 @@ The script checks:
 - All helper skills exist
 - Principles index matches principle skill files
 
+## pstack to fstack Mapping
+
+fstack is modeled on pstack, adapted for design and frontend work. This table shows equivalent skills:
+
+| pstack Skill | fstack Equivalent | Notes |
+|--------------|-------------------|-------|
+| `/poteto-mode` | `/flash-mode` | Sticky router |
+| `/how` | `/how-ui` | Trace behavior |
+| `/why` | `/why-this-design` | Historical rationale |
+| `/interrogate` | `/critique` | Multi-reviewer feedback |
+| `/automate-me` | `/automate-me` | Personal mode from patterns |
+| `/reflect` | `/reflect` | Mine learnings, edit skills |
+| `/correct` | `/correct` | Stop repeated mistakes |
+| `/figure-it-out` | `/figure-it-out` | Custom playbook |
+| `/recall` | `/recall` | Catch up from context |
+| `/blast-radius` | `/blast-radius` | What could break |
+| `/architect` | `/architect` | Design before implementing |
+| `/arena` | `/arena` | Competing attempts |
+| `/swarm` | `/swarm` | Parallel workers |
+| `/tdd` | `/tdd` | Test-driven development |
+| `/technical-writing` | `/technical-writing` | Docs, PRs, READMEs |
+| `/no-comments` | `/no-comments` | Clean up comments |
+| `/bro` | `/bro` | Say it simpler |
+| `investigation` | `investigation` | Read-only questions |
+| `session-pickup` | `session-pickup` | Resume prior work |
+| `pause-safely` | `pause-safely` | Save progress cleanly |
+| `shipping` | `shipping` | Verify and land PRs |
+| `feature` | `feature` | Full feature playbook |
+| `perf-issue` | `perf-issue` | Performance diagnosis |
+| `hillclimb` | `hillclimb` | Metric improvement |
+| `autonomous-run` | `autonomous-run` | Unattended completion |
+| `multi-phase-plan` | `multi-phase-plan` | Stacked PRs |
+| `orchestrate` | `orchestrate` | Coordinate workstreams |
+| `autopilot-full` | `autopilot-full` | Land PR queue |
+| `autopilot-stack` | `autopilot-stack` | Land as stack |
+| `authoring-a-skill` | `authoring-a-skill` | Write SKILL.md |
+
+### fstack-Specific Skills
+
+These skills are fstack originals for design/frontend work:
+
+| Skill | Purpose |
+|-------|---------|
+| `/a11y` | Quick accessibility check |
+| `/typescript-best-practices` | React/TSX patterns |
+| `/changelog-notetaker` | Record task in changelog |
+| `problem-framing` | Research synthesis |
+| `user-flows-ia` | Navigation and IA |
+| `wireframe-to-hifi` | Sketches to polish |
+| `design-critique` | Design feedback |
+| `design-system` | Tokens and components |
+| `ux-copy` | UI text |
+| `figma-to-code` | Implement from Figma |
+| `visual-parity` | Match design exactly |
+| `accessibility-audit` | WCAG 2.2 AA |
+| `responsive-cross-browser` | Mobile/Safari/Firefox |
+| `component-refactor` | Refactor safely |
+| `handoff-note` | Designer-developer handoff |
+| `runtime-forensics` | Memory leaks, CPU spin |
+| `trace-forensics` | Analyze profiles |
+
 ## Differences from pstack
 
 fstack is inspired by pstack but focused specifically on design and frontend work:
@@ -327,7 +444,7 @@ fstack is inspired by pstack but focused specifically on design and frontend wor
 | pstack | fstack |
 |--------|--------|
 | Full engineering workflow | Design + frontend focus |
-| 22+ playbooks | 20 playbooks (design, frontend, shipping, session) |
+| 30+ skills | 50+ skills (design, frontend, shipping, session, advanced) |
 | `/poteto-mode` router | `/flash-mode` router |
 | `/interrogate` multi-model review | `/critique` multi-reviewer feedback |
 | `/how`, `/why` | `/how-ui`, `/why-this-design` |
@@ -342,6 +459,7 @@ Both share:
 - Decision logging
 - Session pickup/pause
 - Helper skill architecture
+- Mandatory changelog step on every playbook
 
 ## License
 

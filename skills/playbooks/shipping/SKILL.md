@@ -66,8 +66,24 @@ PLAYBOOK: Shipping
   └─ Report what remains unverified
   └─ User decides: wait, re-verify, or investigate
 
+□ Step 9: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Verification verdicts per PR with commit SHAs, explicit user merge approval
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Shipped: [PR/stack description]" |
+| playbook_name | "shipping" |
+| summary | PRs merged, verification status |
+| files | (Varies by PRs) |
+| prs | List of merged PR numbers |
+| evidence | Verification verdicts with SHAs |
 
 ## Verification checklist
 

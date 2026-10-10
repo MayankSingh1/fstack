@@ -93,8 +93,23 @@ PLAYBOOK: Accessibility Audit (WCAG 2.2 AA)
   └─ Spot-check manual fixes
   └─ Document remaining issues
 
+□ Step 13: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Accessibility audit report showing WCAG 2.2 AA compliance OR documented issues with remediation plan
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Accessibility audit: [scope]" |
+| playbook_name | "accessibility-audit" |
+| summary | Issues found, fixes applied |
+| files | Changed files |
+| evidence | Audit report, axe output |
 
 ## WCAG 2.2 Quick Reference
 

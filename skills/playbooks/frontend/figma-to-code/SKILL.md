@@ -99,8 +99,23 @@ PLAYBOOK: Figma to Code
   └─ Document any technical constraints
   └─ Flag any design issues discovered
 
+□ Step 13: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Working implementation with screenshot comparison to Figma design
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Figma to code: [component/screen]" |
+| playbook_name | "figma-to-code" |
+| summary | What was implemented |
+| files | Created/modified files |
+| evidence | Screenshot comparison, Figma link |
 
 ## Using Figma MCP
 

@@ -1,10 +1,10 @@
 ---
-name: fstack-help
-description: "Quick reference that maps questions to the right skill, playbook, or principle. Use for /fstack-help, 'what skill should I use', or 'how do I do X with fstack'."
+name: flash-help
+description: "Quick reference that maps questions to the right skill, playbook, or principle. Use for /flash-help, 'what skill should I use', or 'how do I do X with fstack'."
 disable-model-invocation: true
 ---
 
-# /fstack-help
+# /flash-help
 
 Maps your question to the right fstack skill, playbook, or principle.
 
@@ -24,9 +24,11 @@ Maps your question to the right fstack skill, playbook, or principle.
 | Task | Use |
 |------|-----|
 | Implement a Figma design | **Figma to Code** playbook |
+| Build a new feature end-to-end | **Feature** playbook |
 | Build a new component | **Figma to Code** + design system principle |
 | Create a quick sketch to decide | **Prototype** playbook |
 | Refactor a component | **Component Refactor** playbook |
+| Design component API first | `/architect` |
 
 ### "I want to check..."
 
@@ -53,6 +55,9 @@ Maps your question to the right fstack skill, playbook, or principle.
 | Bug in UI | **Bug Fix** playbook |
 | Not matching design | **Visual Parity** playbook |
 | Accessibility issue | **Accessibility Audit** playbook |
+| Performance issue, slow | **Perf Issue** playbook |
+| Memory leak, CPU spin | **Runtime Forensics** playbook |
+| Stop repeated mistakes | `/correct` |
 
 ### "I want to review..."
 
@@ -70,24 +75,88 @@ Maps your question to the right fstack skill, playbook, or principle.
 | Pause and save progress | **Pause Safely** playbook |
 | Keep a decision trail | `/show-me-your-work` |
 | Configure fstack | `/setup-fstack` |
+| Catch me up on context | `/recall` |
+| Finish without me | **Autonomous Run** playbook |
+| Multiple PRs, stacked | **Multi-Phase Plan** playbook |
+| Coordinate workstreams | **Orchestrate** playbook |
+
+### "I want to improve..."
+
+| Task | Use |
+|------|-----|
+| Improve metric to target | **Hillclimb** playbook |
+| Compare approaches | `/arena` |
+| Parallel workers | `/swarm` |
+| What could this break | `/blast-radius` |
+| Turn learnings into skills | `/reflect` |
+| Create my personal mode | `/automate-me` |
+
+### "I want to write..."
+
+| Task | Use |
+|------|-----|
+| Docs, READMEs, RFCs | `/technical-writing` |
+| Write a skill | **Authoring a Skill** playbook |
+| Clean up comments | `/no-comments` |
+| Say that simpler | `/bro` |
 
 ## Skill Index
 
-### Helpers
+### Helpers — Understanding
 
 | Command | Purpose |
 |---------|---------|
 | `/how-ui` | Trace how a screen/component works |
 | `/why-this-design` | Find evidence for design decisions |
 | `/teach` | Combines how + why into plain explanation |
+| `/recall` | Catch up from recent transcripts and git state |
+
+### Helpers — Review & Quality
+
+| Command | Purpose |
+|---------|---------|
 | `/critique` | Multi-reviewer feedback |
 | `/a11y` | Quick accessibility check |
 | `/unslop` | Remove AI-generated fluff |
+| `/blast-radius` | What could this change break |
+| `/no-comments` | Clean up unnecessary comments |
+
+### Helpers — Architecture & Comparison
+
+| Command | Purpose |
+|---------|---------|
+| `/architect` | Design component API before building |
+| `/arena` | Competing attempts, pick best, graft ideas |
+| `/swarm` | Parallel workers across slices |
+| `/tdd` | Test-driven development for UI |
+
+### Helpers — Meta & Learning
+
+| Command | Purpose |
+|---------|---------|
+| `/reflect` | Turn learnings into skill edits |
+| `/automate-me` | Create personal mode from patterns |
+| `/correct` | Stop repeated mistakes |
+| `/figure-it-out` | Custom playbook when none fits |
+
+### Helpers — Writing & Code
+
+| Command | Purpose |
+|---------|---------|
+| `/technical-writing` | Docs, READMEs, PRs, commit messages |
+| `/typescript-best-practices` | TypeScript/React patterns |
+| `/bro` | Say the last message simpler |
+| `/changelog-notetaker` | Record task in project changelog |
+
+### Helpers — Setup & Reference
+
+| Command | Purpose |
+|---------|---------|
 | `/setup-fstack` | Configure model roles |
 | `/create-verification-skill` | Generate project verification skill |
 | `/maintain-verification-skill` | Keep verification skill current |
 | `/show-me-your-work` | Decision log for auditable trail |
-| `/fstack-help` | This help map |
+| `/flash-help` | This help map |
 
 ### Design Playbooks
 
@@ -110,6 +179,11 @@ Maps your question to the right fstack skill, playbook, or principle.
 | Responsive & Cross-Browser | Mobile, Safari, Firefox |
 | Component Refactor | Refactor safely |
 | Bug Fix | Fix UI bugs |
+| Feature | Build new feature end-to-end |
+| Perf Issue | Performance diagnosis and fix |
+| Hillclimb | Improve metric to target |
+| Runtime Forensics | Memory leak, CPU spin, frozen UI |
+| Trace Forensics | Analyze captured profile/trace |
 
 ### Shipping Playbooks
 
@@ -128,6 +202,17 @@ Maps your question to the right fstack skill, playbook, or principle.
 | Prototype | Throwaway sketch to decide |
 | Session Pickup | Continue previous work |
 | Pause Safely | Save progress cleanly |
+
+### Advanced Playbooks
+
+| Playbook | Trigger |
+|----------|---------|
+| Autonomous Run | Finish without human intervention |
+| Multi-Phase Plan | Work spanning multiple PRs |
+| Orchestrate | Coordinate across workstreams |
+| Autopilot Full | Land queue of independent PRs |
+| Autopilot Stack | Land PRs as linear stack |
+| Authoring a Skill | Write or edit a SKILL.md |
 
 ## Principles
 

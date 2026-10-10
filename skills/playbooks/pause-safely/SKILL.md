@@ -63,8 +63,23 @@ PLAYBOOK: Pause Safely
   └─ Where to find the resume note
   └─ How to continue (reference /session-pickup)
 
+□ Step 8: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Committed work on pushed branch, resume note documenting state
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Paused: [task name]" |
+| playbook_name | "pause-safely" |
+| summary | State saved, what remains |
+| files | Resume note path |
+| evidence | Branch name, commit SHA |
 
 ## Atomic boundaries
 

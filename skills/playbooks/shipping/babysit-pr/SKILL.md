@@ -78,8 +78,24 @@ PLAYBOOK: Babysit PR
   └─ DO NOT MERGE AUTOMATICALLY
   └─ Let the appropriate person merge
 
+□ Step 11: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: PR in merge-ready state (CI passing, approvals received, no conflicts) OR documented blockers
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Babysit PR: #[number]" |
+| playbook_name | "babysit-pr" |
+| summary | Feedback addressed, current state |
+| files | Files changed in response to review |
+| prs | PR number |
+| evidence | CI status, approval status |
 
 ## CI Failure Triage
 

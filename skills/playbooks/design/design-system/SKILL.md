@@ -83,8 +83,23 @@ PLAYBOOK: Design System
   └─ Visual regression tests
   └─ Linting for token usage
 
+□ Step 11: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Token definitions, component documentation, and Figma library
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Design system: [what was added/updated]" |
+| playbook_name | "design-system" |
+| summary | Tokens, components, or governance added |
+| files | Token files, component files, documentation |
+| evidence | Figma library link, component documentation |
 
 ## Token Structure
 

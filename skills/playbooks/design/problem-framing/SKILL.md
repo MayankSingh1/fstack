@@ -58,8 +58,23 @@ PLAYBOOK: Problem Framing & Research Synthesis
   └─ Share with stakeholders for alignment
   └─ Get sign-off before solutioning
 
+□ Step 9: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Problem statement document with user evidence and success criteria defined
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Problem framing: [subject]" |
+| playbook_name | "problem-framing" |
+| summary | Problem statement and key insights |
+| files | Problem brief document |
+| evidence | Research synthesis, stakeholder sign-off |
 
 ## Problem Statement Template
 

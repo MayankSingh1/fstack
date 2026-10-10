@@ -88,8 +88,24 @@ PLAYBOOK: Bug Fix
   └─ Fix didn't break accessibility
   └─ If a11y-related bug, verify with AT
 
+□ Step 13: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Before/after demonstrating bug is fixed, test capturing the bug, no regressions
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Bug fix: [description]" |
+| playbook_name | "bug-fix" |
+| summary | Root cause and fix applied |
+| files | Changed files |
+| prs | PR number if opened |
+| evidence | Before/after screenshots, test output |
 
 ## Bug Investigation Techniques
 

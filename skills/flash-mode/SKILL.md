@@ -66,6 +66,8 @@ Match the user's request to the most appropriate playbook:
 | Responsive, mobile, cross-browser, Safari/Firefox | **Responsive & Cross-Browser** |
 | Refactor component, extract, restructure | **Component Refactor** |
 | Fix bug, broken, not working, regression | **Bug Fix** |
+| Build new feature end-to-end | **Feature** |
+| This is slow, performance issue | **Perf Issue** |
 
 ### Shipping Playbooks
 
@@ -82,6 +84,20 @@ Match the user's request to the most appropriate playbook:
 |-----------------|----------|
 | Continue, pick up, resume previous work | **Session Pickup** |
 | Pause, stop, stepping away, going offline | **Pause Safely** |
+
+### Advanced Playbooks
+
+| Request Pattern | Playbook |
+|-----------------|----------|
+| Improve metric X until target | **Hillclimb** |
+| Memory leak, CPU spin, frozen UI | **Runtime Forensics** |
+| Analyze this trace/profile | **Trace Forensics** |
+| Finish without me, autonomous | **Autonomous Run** |
+| Multiple PRs, stacked changes | **Multi-Phase Plan** |
+| Coordinate across workstreams | **Orchestrate** |
+| Land queue of PRs | **Autopilot Full** |
+| Land as stacked PRs | **Autopilot Stack** |
+| Write a skill | **Authoring a Skill** |
 
 ## Task List Format
 
@@ -129,7 +145,32 @@ If no role file exists, use the current model for all work.
 | Long/autonomous work | `/show-me-your-work` |
 | No scripted verification exists | `/create-verification-skill` |
 | Verification skill needs update | `/maintain-verification-skill` |
-| "What skill do I use?" | `/fstack-help` |
+| "What skill do I use?" | `/flash-help` |
+| Design component API first | `/architect` |
+| Compare competing approaches | `/arena` |
+| Parallel workers across slices | `/swarm` |
+| What could this break | `/blast-radius` |
+| Catch me up, recall context | `/recall` |
+| No playbook fits | `/figure-it-out` |
+| Clean up comments | `/no-comments` |
+| TypeScript patterns | `/typescript-best-practices` |
+| Write docs, RFCs, PRs | `/technical-writing` |
+| Test-driven fix | `/tdd` |
+| Stop repeated mistakes | `/correct` |
+| Mine learnings from this task | `/reflect` |
+| Create my personal mode | `/automate-me` |
+| Say that simpler | `/bro` |
+
+## Changelog
+
+**Every playbook ends with a mandatory changelog step:**
+
+```
+□ Record in changelog
+  └─ Calls: /changelog-notetaker
+```
+
+This records the task in `FSTACK_CHANGELOG.md` or `.fstack/changelog.md` with task name, playbook used, summary, files changed, and evidence.
 
 ## Commands
 

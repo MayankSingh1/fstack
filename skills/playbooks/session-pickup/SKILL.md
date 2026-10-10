@@ -68,8 +68,23 @@ PLAYBOOK: Session Pickup
   └─ State what you're continuing with
   └─ Note any issues found during pickup
 
+□ Step 9: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Pickup brief documenting done/remaining/blockers, verified against actual state
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Session pickup: [task resumed]" |
+| playbook_name | "session-pickup" |
+| summary | Prior state verified, resuming from step N |
+| files | Pickup brief path |
+| evidence | Branch/commit verified, state confirmed |
 
 ## Pickup brief format
 

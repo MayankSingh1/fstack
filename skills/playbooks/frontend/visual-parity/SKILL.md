@@ -85,8 +85,23 @@ PLAYBOOK: Visual Parity
   └─ Sub-pixel differences
   └─ These may be acceptable
 
+□ Step 12: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Before/after screenshots showing visual parity achieved OR documented list of intentional deviations
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Visual parity: [component/screen]" |
+| playbook_name | "visual-parity" |
+| summary | Discrepancies fixed, deviations documented |
+| files | Modified files |
+| evidence | Before/after screenshots, diff report |
 
 ## Visual Diff Categories
 

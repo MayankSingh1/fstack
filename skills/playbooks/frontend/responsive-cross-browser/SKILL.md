@@ -92,8 +92,23 @@ PLAYBOOK: Responsive & Cross-Browser
   └─ Zoom works at all breakpoints
   └─ Touch and keyboard both work
 
+□ Step 13: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Screenshots at mobile/tablet/desktop viewports across Chrome, Safari, Firefox showing consistent rendering
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Responsive/cross-browser: [scope]" |
+| playbook_name | "responsive-cross-browser" |
+| summary | Issues found and fixed |
+| files | Modified files |
+| evidence | Screenshots across devices/browsers |
 
 ## Viewport Breakpoints Reference
 

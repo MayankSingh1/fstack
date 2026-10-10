@@ -75,8 +75,23 @@ PLAYBOOK: UX Copy
   └─ Note any intentional inconsistencies
   └─ Add to content guidelines if new pattern
 
+□ Step 11: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Final copy with rationale for key decisions
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "UX copy: [component/flow]" |
+| playbook_name | "ux-copy" |
+| summary | What copy was written or updated |
+| files | Files containing updated copy |
+| evidence | Copy decisions, terminology choices |
 
 ## UX Writing Principles
 

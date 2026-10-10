@@ -2,7 +2,7 @@
   "name": "fstack",
   "displayName": "fstack (flash stack)",
   "description": "Agent skills for product designers, UX designers, UI designers and frontend developers. Covers research, design, frontend build, review, PRs, and shipping. Modeled on pstack by Lauren Tan (@poteto).",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "fstack contributors",
   "license": "MIT",
   "repository": "https://github.com/fstack-plugin/fstack",
@@ -44,7 +44,12 @@
         "skills/playbooks/frontend/accessibility-audit/SKILL.md",
         "skills/playbooks/frontend/responsive-cross-browser/SKILL.md",
         "skills/playbooks/frontend/component-refactor/SKILL.md",
-        "skills/playbooks/frontend/bug-fix/SKILL.md"
+        "skills/playbooks/frontend/bug-fix/SKILL.md",
+        "skills/playbooks/feature/SKILL.md",
+        "skills/playbooks/perf-issue/SKILL.md",
+        "skills/playbooks/hillclimb/SKILL.md",
+        "skills/playbooks/runtime-forensics/SKILL.md",
+        "skills/playbooks/trace-forensics/SKILL.md"
       ],
       "shipping": [
         "skills/playbooks/shipping/open-pr/SKILL.md",
@@ -57,6 +62,14 @@
         "skills/playbooks/prototype/SKILL.md",
         "skills/playbooks/session-pickup/SKILL.md",
         "skills/playbooks/pause-safely/SKILL.md"
+      ],
+      "advanced": [
+        "skills/playbooks/autonomous-run/SKILL.md",
+        "skills/playbooks/multi-phase-plan/SKILL.md",
+        "skills/playbooks/orchestrate/SKILL.md",
+        "skills/playbooks/autopilot-full/SKILL.md",
+        "skills/playbooks/autopilot-stack/SKILL.md",
+        "skills/playbooks/authoring-a-skill/SKILL.md"
       ]
     },
     "principles": [
@@ -79,7 +92,22 @@
       "skills/helpers/create-verification-skill/SKILL.md",
       "skills/helpers/maintain-verification-skill/SKILL.md",
       "skills/helpers/show-me-your-work/SKILL.md",
-      "skills/helpers/fstack-help/SKILL.md"
+      "skills/helpers/flash-help/SKILL.md",
+      "skills/helpers/changelog-notetaker/SKILL.md",
+      "skills/helpers/automate-me/SKILL.md",
+      "skills/helpers/reflect/SKILL.md",
+      "skills/helpers/correct/SKILL.md",
+      "skills/helpers/figure-it-out/SKILL.md",
+      "skills/helpers/recall/SKILL.md",
+      "skills/helpers/blast-radius/SKILL.md",
+      "skills/helpers/architect/SKILL.md",
+      "skills/helpers/arena/SKILL.md",
+      "skills/helpers/swarm/SKILL.md",
+      "skills/helpers/tdd/SKILL.md",
+      "skills/helpers/typescript-best-practices/SKILL.md",
+      "skills/helpers/no-comments/SKILL.md",
+      "skills/helpers/technical-writing/SKILL.md",
+      "skills/helpers/bro/SKILL.md"
     ]
   }
 }

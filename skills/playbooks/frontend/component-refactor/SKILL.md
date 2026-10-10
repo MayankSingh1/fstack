@@ -84,8 +84,23 @@ PLAYBOOK: Component Refactor
   └─ Screen reader still works
   └─ No ARIA changes that break a11y
 
+□ Step 12: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: All characterization tests pass, before/after comparison showing identical behavior
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Refactor: [component name]" |
+| playbook_name | "component-refactor" |
+| summary | What was refactored and why |
+| files | Changed files |
+| evidence | Test output, before/after comparison |
 
 ## Characterization Test Example
 

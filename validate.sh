@@ -12,7 +12,7 @@ ERRORS=0
 WARNINGS=0
 
 echo "============================================"
-echo "fstack Validation Script"
+echo "fstack Validation Script v1.2.0"
 echo "============================================"
 echo ""
 
@@ -43,6 +43,19 @@ check_frontmatter() {
     fi
     
     return 0
+}
+
+# Function to check if a playbook contains the changelog step
+check_changelog_step() {
+    local file=$1
+    
+    if grep -q "changelog-notetaker" "$file"; then
+        return 0
+    else
+        echo -e "${YELLOW}WARNING${NC}: $file missing changelog-notetaker step"
+        ((WARNINGS++))
+        return 1
+    fi
 }
 
 # Find all SKILL.md files
@@ -89,6 +102,11 @@ frontend_playbooks=(
     "skills/playbooks/frontend/responsive-cross-browser/SKILL.md"
     "skills/playbooks/frontend/component-refactor/SKILL.md"
     "skills/playbooks/frontend/bug-fix/SKILL.md"
+    "skills/playbooks/feature/SKILL.md"
+    "skills/playbooks/perf-issue/SKILL.md"
+    "skills/playbooks/hillclimb/SKILL.md"
+    "skills/playbooks/runtime-forensics/SKILL.md"
+    "skills/playbooks/trace-forensics/SKILL.md"
 )
 
 shipping_playbooks=(
@@ -103,6 +121,15 @@ session_playbooks=(
     "skills/playbooks/prototype/SKILL.md"
     "skills/playbooks/session-pickup/SKILL.md"
     "skills/playbooks/pause-safely/SKILL.md"
+)
+
+advanced_playbooks=(
+    "skills/playbooks/autonomous-run/SKILL.md"
+    "skills/playbooks/multi-phase-plan/SKILL.md"
+    "skills/playbooks/orchestrate/SKILL.md"
+    "skills/playbooks/autopilot-full/SKILL.md"
+    "skills/playbooks/autopilot-stack/SKILL.md"
+    "skills/playbooks/authoring-a-skill/SKILL.md"
 )
 
 # Check design playbooks
@@ -150,6 +177,17 @@ for playbook in "${session_playbooks[@]}"; do
 done
 
 echo ""
+echo "Advanced playbooks:"
+for playbook in "${advanced_playbooks[@]}"; do
+    if [[ -f "$playbook" ]]; then
+        echo -e "  ${GREEN}✓${NC} $playbook"
+    else
+        echo -e "  ${RED}✗${NC} $playbook (MISSING)"
+        ((ERRORS++))
+    fi
+done
+
+echo ""
 
 # Check helper skills
 echo "Checking helper skills..."
@@ -163,10 +201,25 @@ helpers=(
     "skills/helpers/unslop/SKILL.md"
     "skills/helpers/setup-fstack/SKILL.md"
     "skills/helpers/teach/SKILL.md"
-    "skills/helpers/fstack-help/SKILL.md"
+    "skills/helpers/flash-help/SKILL.md"
     "skills/helpers/show-me-your-work/SKILL.md"
     "skills/helpers/create-verification-skill/SKILL.md"
     "skills/helpers/maintain-verification-skill/SKILL.md"
+    "skills/helpers/changelog-notetaker/SKILL.md"
+    "skills/helpers/automate-me/SKILL.md"
+    "skills/helpers/reflect/SKILL.md"
+    "skills/helpers/correct/SKILL.md"
+    "skills/helpers/figure-it-out/SKILL.md"
+    "skills/helpers/recall/SKILL.md"
+    "skills/helpers/blast-radius/SKILL.md"
+    "skills/helpers/architect/SKILL.md"
+    "skills/helpers/arena/SKILL.md"
+    "skills/helpers/swarm/SKILL.md"
+    "skills/helpers/tdd/SKILL.md"
+    "skills/helpers/typescript-best-practices/SKILL.md"
+    "skills/helpers/no-comments/SKILL.md"
+    "skills/helpers/technical-writing/SKILL.md"
+    "skills/helpers/bro/SKILL.md"
 )
 
 for helper in "${helpers[@]}"; do
@@ -247,6 +300,31 @@ fi
 
 echo ""
 
+# Check that all playbooks contain the changelog step
+echo "Checking changelog step in playbooks..."
+echo "--------------------------------"
+
+all_playbooks=("${design_playbooks[@]}" "${frontend_playbooks[@]}" "${shipping_playbooks[@]}" "${session_playbooks[@]}" "${advanced_playbooks[@]}")
+
+changelog_pass=0
+changelog_fail=0
+
+for playbook in "${all_playbooks[@]}"; do
+    if [[ -f "$playbook" ]]; then
+        if check_changelog_step "$playbook"; then
+            echo -e "${GREEN}✓${NC} $playbook has changelog step"
+            ((changelog_pass++))
+        else
+            echo -e "${YELLOW}⚠${NC} $playbook missing changelog step"
+            ((changelog_fail++))
+        fi
+    fi
+done
+
+echo ""
+echo "Changelog step: $changelog_pass passed, $changelog_fail missing"
+echo ""
+
 # Check supporting files
 echo "Checking supporting files..."
 echo "--------------------------------"
@@ -257,6 +335,10 @@ if [[ -f "skill.json" ]]; then
     # Check if it's valid JSON
     if python3 -c "import json; json.load(open('skill.json'))" 2>/dev/null; then
         echo -e "${GREEN}✓${NC} skill.json is valid JSON"
+        
+        # Check version
+        version=$(python3 -c "import json; print(json.load(open('skill.json')).get('version', 'unknown'))")
+        echo -e "${GREEN}✓${NC} skill.json version: $version"
     else
         echo -e "${RED}✗${NC} skill.json is not valid JSON"
         ((ERRORS++))
@@ -323,6 +405,13 @@ if [[ -f "README.md" ]]; then
         echo -e "${YELLOW}WARNING${NC}: README missing /show-me-your-work documentation"
         ((WARNINGS++))
     fi
+    
+    if grep -q "changelog-notetaker" README.md; then
+        echo -e "${GREEN}✓${NC} README documents /changelog-notetaker"
+    else
+        echo -e "${YELLOW}WARNING${NC}: README missing /changelog-notetaker documentation"
+        ((WARNINGS++))
+    fi
 else
     echo -e "${RED}✗${NC} README.md (MISSING)"
     ((ERRORS++))
@@ -335,7 +424,7 @@ echo "============================================"
 echo "Validation Summary"
 echo "============================================"
 
-total_playbooks=$((${#design_playbooks[@]} + ${#frontend_playbooks[@]} + ${#shipping_playbooks[@]} + ${#session_playbooks[@]}))
+total_playbooks=$((${#design_playbooks[@]} + ${#frontend_playbooks[@]} + ${#shipping_playbooks[@]} + ${#session_playbooks[@]} + ${#advanced_playbooks[@]}))
 echo "Playbooks: $total_playbooks"
 echo "Helpers: ${#helpers[@]}"
 echo "Principles: ${#principles[@]}"

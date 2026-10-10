@@ -62,8 +62,23 @@ PLAYBOOK: Prototype
   └─ Promote to a proper implementation
   └─ Don't leave sketches in the codebase
 
+□ Step 8: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Screenshots/recordings of options, documented decision with rationale
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Prototype: [decision made]" |
+| playbook_name | "prototype" |
+| summary | Decision reached and rationale |
+| files | Screenshot/recording paths |
+| evidence | Comparison screenshots, decision doc |
 
 ## What prototypes are NOT
 

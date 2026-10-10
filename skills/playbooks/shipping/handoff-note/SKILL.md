@@ -92,8 +92,23 @@ PLAYBOOK: Designer-Developer Handoff Note
   └─ How will we know it's done?
   └─ What does QA need to check?
 
+□ Step 13: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Complete handoff document with Figma links, all states documented, and acceptance criteria defined
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Handoff: [feature name]" |
+| playbook_name | "handoff-note" |
+| summary | Handoff doc created for [feature] |
+| files | Handoff document path |
+| evidence | Figma links, component inventory |
 
 ## Handoff Document Template
 

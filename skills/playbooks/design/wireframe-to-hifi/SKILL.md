@@ -85,8 +85,23 @@ PLAYBOOK: Wireframe to Hi-Fi
   └─ Document any edge cases
   └─ Organize layers and naming
 
+□ Step 13: Record in changelog
+  └─ Calls: /changelog-notetaker
+
 EVIDENCE REQUIRED: Hi-fi designs in Figma (or equivalent) showing all states and responsive variants
 ```
+
+## Record in Changelog
+
+Call `/changelog-notetaker` with:
+
+| Field | Value |
+|-------|-------|
+| task_name | "Hi-fi designs: [component/screen]" |
+| playbook_name | "wireframe-to-hifi" |
+| summary | What was designed |
+| files | Figma link, design specs |
+| evidence | Screenshots of key states, responsive variants |
 
 ## Layout Grid Guidelines
 
