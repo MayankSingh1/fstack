@@ -1,0 +1,52 @@
+{
+  "name": "fstack-skills",
+  "version": "1.2.0",
+  "description": "Agent skills for product designers, UX designers, UI designers and frontend developers. Works with Cursor, Claude Code, Codex, Antigravity IDE, Open Code, and more.",
+  "main": "index.js",
+  "bin": {
+    "fstack": "./bin/fstack.js"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "scripts/",
+    "references/",
+    "rules/",
+    "skill.json",
+    "index.js"
+  ],
+  "scripts": {
+    "postinstall": "node bin/fstack.js info --quiet",
+    "test": "bash validate.sh",
+    "validate": "bash validate.sh"
+  },
+  "keywords": [
+    "cursor",
+    "claude-code",
+    "codex",
+    "antigravity",
+    "opencode",
+    "ai-agent",
+    "skills",
+    "design",
+    "frontend",
+    "ux",
+    "ui",
+    "figma",
+    "accessibility",
+    "design-system"
+  ],
+  "author": "fstack contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fstack-plugin/fstack"
+  },
+  "homepage": "https://github.com/fstack-plugin/fstack#readme",
+  "bugs": {
+    "url": "https://github.com/fstack-plugin/fstack/issues"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

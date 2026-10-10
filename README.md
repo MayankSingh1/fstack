@@ -4,36 +4,164 @@
 
 Covers the flow from research and design through frontend build, review, raising PRs, and shipping. Modeled on [pstack](https://flaviocopes.com/pstack/) by Lauren Tan ([@poteto](https://x.com/poteto)).
 
-> **Note:** Flavio Copes uses the name "fstack" for his own workflow. This is **fstack (flash stack)** — a distinct Cursor plugin focused on design and frontend work.
+> **Note:** Flavio Copes uses the name "fstack" for his own workflow. This is **fstack (flash stack)** — a distinct plugin focused on design and frontend work.
+
+## Installation
+
+### npm (Recommended)
+
+Install fstack to any supported AI coding tool with one command:
+
+```bash
+# Install via npx (no global install needed)
+npx fstack-skills init --platform cursor
+npx fstack-skills init --platform claude-code
+npx fstack-skills init --platform codex
+npx fstack-skills init --platform antigravity
+npx fstack-skills init --platform opencode
+
+# Or install globally first
+npm install -g fstack-skills
+fstack init --platform cursor
+```
+
+#### Installation Options
+
+```bash
+# Local (current project only)
+npx fstack-skills init --platform cursor
+
+# Global (all projects)
+npx fstack-skills init --platform cursor --global
+
+# All detected platforms at once
+npx fstack-skills init --platform all
+
+# Custom path
+npx fstack-skills init --path ./my-skills/fstack
+```
+
+#### CLI Commands
+
+```bash
+fstack init          # Install skills to a platform
+fstack uninstall     # Remove fstack from a platform  
+fstack list          # Show all supported platforms
+fstack status        # Check what's installed
+fstack info          # Show package info
+fstack help          # Show help
+```
+
+### Platform-Specific Installation
+
+#### Cursor
+
+```bash
+# Option 1: npm
+npx fstack-skills init --platform cursor --global
+
+# Option 2: Cursor plugin command
+/add-plugin fstack
+
+# Option 3: Manual
+git clone https://github.com/fstack-plugin/fstack.git
+cp -r fstack/skills/ ~/.cursor/skills/fstack/
+```
+
+Then run `/setup-fstack` to configure model roles.
+
+#### Claude Code
+
+```bash
+# Option 1: npm
+npx fstack-skills init --platform claude-code --global
+
+# Option 2: Manual
+git clone https://github.com/fstack-plugin/fstack.git
+cp -r fstack/skills/ ~/.claude/commands/fstack/
+```
+
+#### Codex
+
+```bash
+# Option 1: npm
+npx fstack-skills init --platform codex --global
+
+# Option 2: Manual
+git clone https://github.com/fstack-plugin/fstack.git
+cp -r fstack/skills/ ~/.codex/skills/fstack/
+```
+
+#### Antigravity IDE
+
+```bash
+# Option 1: npm
+npx fstack-skills init --platform antigravity --global
+
+# Option 2: Manual
+git clone https://github.com/fstack-plugin/fstack.git
+cp -r fstack/skills/ ~/.antigravity/skills/fstack/
+```
+
+#### Open Code
+
+```bash
+# Option 1: npm
+npx fstack-skills init --platform opencode --global
+
+# Option 2: Manual
+git clone https://github.com/fstack-plugin/fstack.git
+cp -r fstack/skills/ ~/.opencode/skills/fstack/
+```
+
+#### Windsurf
+
+```bash
+# Option 1: npm
+npx fstack-skills init --platform windsurf --global
+
+# Option 2: Manual
+git clone https://github.com/fstack-plugin/fstack.git
+cp -r fstack/skills/ ~/.windsurf/skills/fstack/
+```
+
+#### GitHub Copilot
+
+```bash
+# Option 1: npm
+npx fstack-skills init --platform copilot --global
+
+# Option 2: Manual
+git clone https://github.com/fstack-plugin/fstack.git
+cp -r fstack/skills/ ~/.config/github-copilot/skills/fstack/
+```
+
+### Updating
+
+```bash
+# npm update
+npx fstack-skills@latest init --platform cursor --global
+
+# Or reinstall
+fstack uninstall --platform cursor --global
+fstack init --platform cursor --global
+```
 
 ## Quick Start
 
-### Cursor
-
-```
-/add-plugin fstack
-/setup-fstack
-```
-
-Then start a new chat and run:
+After installation, start a new chat and run:
 
 ```
 /flash-mode implement this Figma design
 ```
 
-### Claude Code / Codex (Manual Install)
+Or invoke skills directly:
 
-Copy the `skills/` directory to your project or user skills folder:
-
-```bash
-# Claude Code
-cp -r skills/ ~/.claude/skills/fstack/
-
-# Codex  
-cp -r skills/ .codex/skills/fstack/
 ```
-
-Then invoke with `/flash-mode` or reference skills directly.
+/how-ui how does the modal system work?
+/critique review this component
+/a11y check this form
+```
 
 ## How It Works
 

@@ -1,0 +1,15 @@
+# Development files
+.git/
+.github/
+.cursor/
+.vscode/
+
+# Test artifacts
+/tmp/
+*.log
+
+# Documentation (keep README)
+CONTRIBUTING.md
+CHANGELOG.md
+
+# Development scripts (validate.sh is useful for users too)
