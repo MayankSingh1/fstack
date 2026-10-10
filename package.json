@@ -4,7 +4,7 @@
   "description": "Agent skills for product designers, UX designers, UI designers and frontend developers. Works with Cursor, Claude Code, Codex, Antigravity IDE, Open Code, and more.",
   "main": "index.js",
   "bin": {
-    "fstack": "./bin/fstack.js"
+    "fstack": "bin/fstack.js"
   },
   "files": [
     "bin/",
@@ -40,7 +40,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fstack-plugin/fstack"
+    "url": "git+https://github.com/fstack-plugin/fstack.git"
   },
   "homepage": "https://github.com/fstack-plugin/fstack#readme",
   "bugs": {
