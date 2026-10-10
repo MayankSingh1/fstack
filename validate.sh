@@ -95,6 +95,14 @@ shipping_playbooks=(
     "skills/playbooks/shipping/open-pr/SKILL.md"
     "skills/playbooks/shipping/babysit-pr/SKILL.md"
     "skills/playbooks/shipping/handoff-note/SKILL.md"
+    "skills/playbooks/shipping/SKILL.md"
+)
+
+session_playbooks=(
+    "skills/playbooks/investigation/SKILL.md"
+    "skills/playbooks/prototype/SKILL.md"
+    "skills/playbooks/session-pickup/SKILL.md"
+    "skills/playbooks/pause-safely/SKILL.md"
 )
 
 # Check design playbooks
@@ -131,6 +139,17 @@ for playbook in "${shipping_playbooks[@]}"; do
 done
 
 echo ""
+echo "Session playbooks:"
+for playbook in "${session_playbooks[@]}"; do
+    if [[ -f "$playbook" ]]; then
+        echo -e "  ${GREEN}✓${NC} $playbook"
+    else
+        echo -e "  ${RED}✗${NC} $playbook (MISSING)"
+        ((ERRORS++))
+    fi
+done
+
+echo ""
 
 # Check helper skills
 echo "Checking helper skills..."
@@ -143,6 +162,11 @@ helpers=(
     "skills/helpers/a11y/SKILL.md"
     "skills/helpers/unslop/SKILL.md"
     "skills/helpers/setup-fstack/SKILL.md"
+    "skills/helpers/teach/SKILL.md"
+    "skills/helpers/fstack-help/SKILL.md"
+    "skills/helpers/show-me-your-work/SKILL.md"
+    "skills/helpers/create-verification-skill/SKILL.md"
+    "skills/helpers/maintain-verification-skill/SKILL.md"
 )
 
 for helper in "${helpers[@]}"; do
@@ -187,6 +211,28 @@ echo "--------------------------------"
 
 if [[ -f "skills/flash-mode/SKILL.md" ]]; then
     echo -e "${GREEN}✓${NC} skills/flash-mode/SKILL.md"
+    
+    # Check for pstack-style frontmatter
+    if grep -q "^mode: true" skills/flash-mode/SKILL.md; then
+        echo -e "${GREEN}✓${NC} Router has mode: true"
+    else
+        echo -e "${YELLOW}WARNING${NC}: Router missing mode: true"
+        ((WARNINGS++))
+    fi
+    
+    if grep -q "^disable-model-invocation: true" skills/flash-mode/SKILL.md; then
+        echo -e "${GREEN}✓${NC} Router has disable-model-invocation: true"
+    else
+        echo -e "${YELLOW}WARNING${NC}: Router missing disable-model-invocation: true"
+        ((WARNINGS++))
+    fi
+    
+    if grep -q "^reminder:" skills/flash-mode/SKILL.md; then
+        echo -e "${GREEN}✓${NC} Router has reminder line"
+    else
+        echo -e "${YELLOW}WARNING${NC}: Router missing reminder line"
+        ((WARNINGS++))
+    fi
 else
     echo -e "${RED}✗${NC} skills/flash-mode/SKILL.md (MISSING)"
     ((ERRORS++))
@@ -201,8 +247,8 @@ fi
 
 echo ""
 
-# Check skill.json
-echo "Checking skill.json..."
+# Check supporting files
+echo "Checking supporting files..."
 echo "--------------------------------"
 
 if [[ -f "skill.json" ]]; then
@@ -217,6 +263,26 @@ if [[ -f "skill.json" ]]; then
     fi
 else
     echo -e "${RED}✗${NC} skill.json (MISSING)"
+    ((ERRORS++))
+fi
+
+if [[ -f "scripts/log.sh" ]]; then
+    echo -e "${GREEN}✓${NC} scripts/log.sh exists"
+    if [[ -x "scripts/log.sh" ]]; then
+        echo -e "${GREEN}✓${NC} scripts/log.sh is executable"
+    else
+        echo -e "${YELLOW}WARNING${NC}: scripts/log.sh is not executable"
+        ((WARNINGS++))
+    fi
+else
+    echo -e "${RED}✗${NC} scripts/log.sh (MISSING)"
+    ((ERRORS++))
+fi
+
+if [[ -f "references/decision-log-template.tsv" ]]; then
+    echo -e "${GREEN}✓${NC} references/decision-log-template.tsv exists"
+else
+    echo -e "${RED}✗${NC} references/decision-log-template.tsv (MISSING)"
     ((ERRORS++))
 fi
 
@@ -243,6 +309,20 @@ if [[ -f "README.md" ]]; then
         echo -e "${YELLOW}WARNING${NC}: README missing Skill Catalogue section"
         ((WARNINGS++))
     fi
+    
+    if grep -q "Session Playbooks" README.md; then
+        echo -e "${GREEN}✓${NC} README documents session playbooks"
+    else
+        echo -e "${YELLOW}WARNING${NC}: README missing session playbooks documentation"
+        ((WARNINGS++))
+    fi
+    
+    if grep -q "show-me-your-work" README.md; then
+        echo -e "${GREEN}✓${NC} README documents /show-me-your-work"
+    else
+        echo -e "${YELLOW}WARNING${NC}: README missing /show-me-your-work documentation"
+        ((WARNINGS++))
+    fi
 else
     echo -e "${RED}✗${NC} README.md (MISSING)"
     ((ERRORS++))
@@ -255,7 +335,7 @@ echo "============================================"
 echo "Validation Summary"
 echo "============================================"
 
-total_playbooks=$((${#design_playbooks[@]} + ${#frontend_playbooks[@]} + ${#shipping_playbooks[@]}))
+total_playbooks=$((${#design_playbooks[@]} + ${#frontend_playbooks[@]} + ${#shipping_playbooks[@]} + ${#session_playbooks[@]}))
 echo "Playbooks: $total_playbooks"
 echo "Helpers: ${#helpers[@]}"
 echo "Principles: ${#principles[@]}"

@@ -87,6 +87,13 @@ After `/flash-mode` is invoked:
 |-------|---------|-------------|
 | Flash Mode | `/flash-mode` | Sticky router — matches requests to playbooks |
 
+### Understanding (Read-Only)
+
+| Playbook | Trigger Patterns | Purpose |
+|----------|------------------|---------|
+| Investigation | how does X work, why, are we sure | Read-only investigation, cited answer |
+| Prototype | mock it up, try this layout, sketch | Throwaway UI sketch to settle a decision |
+
 ### Design Playbooks
 
 | Playbook | Trigger Patterns | Purpose |
@@ -115,18 +122,31 @@ After `/flash-mode` is invoked:
 |----------|------------------|---------|
 | Open a PR | open PR, create PR | Create high-quality pull requests |
 | Babysit PR | review comments, CI failing | Drive PRs to merge-ready (never auto-merges) |
+| Shipping | ship, land, verify and merge | Independent verification before landing |
 | Handoff Note | handoff, notes for dev | Designer-developer handoff documentation |
+
+### Session Playbooks
+
+| Playbook | Trigger Patterns | Purpose |
+|----------|------------------|---------|
+| Session Pickup | continue, pick up, resume | Resume prior agent's work cleanly |
+| Pause Safely | pause, stop, stepping away | Save progress at atomic boundary |
 
 ### Helper Skills
 
 | Skill | Command | Purpose |
 |-------|---------|---------|
-| How UI | `/how-ui` | Trace how a screen/component works |
+| How UI | `/how-ui` | Trace how screens/components work |
 | Why This Design | `/why-this-design` | Find evidence for design decisions |
+| Teach | `/teach` | Combines how + why into plain explanation |
 | Critique | `/critique` | Multi-reviewer feedback (act on/consider/noted/dismissed) |
 | A11y | `/a11y` | Quick accessibility check |
 | Unslop | `/unslop` | Remove AI-generated fluff from text |
 | Setup fstack | `/setup-fstack` | Configure model roles |
+| Create Verification Skill | `/create-verification-skill` | Generate project-local verification skill |
+| Maintain Verification Skill | `/maintain-verification-skill` | Keep verification skill current |
+| Show Me Your Work | `/show-me-your-work` | Decision log for auditable trail |
+| fstack Help | `/fstack-help` | Maps questions to the right skill |
 
 ### Principles
 
@@ -178,13 +198,21 @@ Model: claude-opus
 
 | Role | Use Case |
 |------|----------|
-| `investigation` | `/how-ui`, `/why-this-design`, understanding code |
+| `investigation` | `/how-ui`, `/why-this-design`, `/teach`, understanding code |
 | `implementation` | Writing code, Figma-to-code |
 | `judgment` | Design decisions, architecture |
 | `review` | `/critique`, accessibility audits |
 | `prose` | UX copy, PR descriptions |
 
 ## Example Prompts
+
+### Understanding
+
+```
+/flash-mode how does the modal system work?
+/flash-mode why was the navigation built this way?
+/flash-mode teach me how the auth flow works
+```
 
 ### Design Work
 
@@ -194,6 +222,7 @@ Model: claude-opus
 /flash-mode take these wireframes to high-fidelity
 /flash-mode create tokens for our color system
 /flash-mode write the error messages for this form
+/flash-mode mock up both layouts so we can decide
 ```
 
 ### Frontend Work
@@ -212,7 +241,16 @@ Model: claude-opus
 ```
 /flash-mode open a PR for these changes
 /flash-mode help me address these review comments
+/flash-mode verify and ship this PR
 /flash-mode create a handoff note for the checkout redesign
+```
+
+### Session Management
+
+```
+/flash-mode continue from where we left off
+/flash-mode pause and save my progress
+/show-me-your-work
 ```
 
 ### Helpers
@@ -220,9 +258,12 @@ Model: claude-opus
 ```
 /how-ui how does the notification system work?
 /why-this-design why is the button 48px tall?
+/teach explain the state management approach
 /critique review this design for usability issues
 /a11y check this form for accessibility
 /unslop clean up this PR description
+/fstack-help what skill should I use for X?
+/create-verification-skill
 ```
 
 ## File Structure
@@ -231,47 +272,38 @@ Model: claude-opus
 fstack/
 ├── skill.json                          # Plugin manifest
 ├── README.md                           # This file
+├── validate.sh                         # Validation script
+├── scripts/
+│   └── log.sh                          # Decision log helper
+├── references/
+│   └── decision-log-template.tsv       # TSV template
 ├── rules/
 │   └── fstack-models.mdc               # Example model config
-├── skills/
-│   ├── flash-mode/
-│   │   ├── SKILL.md                    # Main router
-│   │   └── principles-index.md         # Principles reference
-│   ├── principles/
-│   │   ├── start-from-user-task/
-│   │   ├── prove-on-real-screen/
-│   │   ├── tokens-over-hardcoded/
-│   │   ├── accessible-by-default/
-│   │   ├── smallest-change/
-│   │   ├── states-are-design/
-│   │   └── design-system-consistency/
-│   ├── playbooks/
-│   │   ├── design/
-│   │   │   ├── problem-framing/
-│   │   │   ├── user-flows-ia/
-│   │   │   ├── wireframe-to-hifi/
-│   │   │   ├── design-critique/
-│   │   │   ├── design-system/
-│   │   │   └── ux-copy/
-│   │   ├── frontend/
-│   │   │   ├── figma-to-code/
-│   │   │   ├── visual-parity/
-│   │   │   ├── accessibility-audit/
-│   │   │   ├── responsive-cross-browser/
-│   │   │   ├── component-refactor/
-│   │   │   └── bug-fix/
-│   │   └── shipping/
-│   │       ├── open-pr/
-│   │       ├── babysit-pr/
-│   │       └── handoff-note/
-│   └── helpers/
-│       ├── how-ui/
-│       ├── why-this-design/
-│       ├── critique/
-│       ├── a11y/
-│       ├── unslop/
-│       └── setup-fstack/
-└── validate.sh                         # Validation script
+└── skills/
+    ├── flash-mode/
+    │   ├── SKILL.md                    # Main router
+    │   └── principles-index.md         # Principles reference
+    ├── principles/                     # 7 principle skills
+    ├── playbooks/
+    │   ├── design/                     # 6 design playbooks
+    │   ├── frontend/                   # 6 frontend playbooks
+    │   ├── shipping/                   # 4 shipping playbooks
+    │   ├── investigation/              # Read-only investigation
+    │   ├── prototype/                  # Throwaway sketches
+    │   ├── session-pickup/             # Resume prior work
+    │   └── pause-safely/               # Save progress cleanly
+    └── helpers/                        # 11 helper skills
+        ├── how-ui/
+        ├── why-this-design/
+        ├── teach/
+        ├── critique/
+        ├── a11y/
+        ├── unslop/
+        ├── setup-fstack/
+        ├── create-verification-skill/
+        ├── maintain-verification-skill/
+        ├── show-me-your-work/
+        └── fstack-help/
 ```
 
 ## Validation
@@ -295,7 +327,7 @@ fstack is inspired by pstack but focused specifically on design and frontend wor
 | pstack | fstack |
 |--------|--------|
 | Full engineering workflow | Design + frontend focus |
-| 22 playbooks | 15 playbooks (design, frontend, shipping) |
+| 22+ playbooks | 20 playbooks (design, frontend, shipping, session) |
 | `/poteto-mode` router | `/flash-mode` router |
 | `/interrogate` multi-model review | `/critique` multi-reviewer feedback |
 | `/how`, `/why` | `/how-ui`, `/why-this-design` |
@@ -306,6 +338,9 @@ Both share:
 - Playbook-based task lists
 - Evidence-based completion
 - Model role delegation
+- Verification skills
+- Decision logging
+- Session pickup/pause
 - Helper skill architecture
 
 ## License

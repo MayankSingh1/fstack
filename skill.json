@@ -2,7 +2,7 @@
   "name": "fstack",
   "displayName": "fstack (flash stack)",
   "description": "Agent skills for product designers, UX designers, UI designers and frontend developers. Covers research, design, frontend build, review, PRs, and shipping. Modeled on pstack by Lauren Tan (@poteto).",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "fstack contributors",
   "license": "MIT",
   "repository": "https://github.com/fstack-plugin/fstack",
@@ -49,7 +49,14 @@
       "shipping": [
         "skills/playbooks/shipping/open-pr/SKILL.md",
         "skills/playbooks/shipping/babysit-pr/SKILL.md",
-        "skills/playbooks/shipping/handoff-note/SKILL.md"
+        "skills/playbooks/shipping/handoff-note/SKILL.md",
+        "skills/playbooks/shipping/SKILL.md"
+      ],
+      "session": [
+        "skills/playbooks/investigation/SKILL.md",
+        "skills/playbooks/prototype/SKILL.md",
+        "skills/playbooks/session-pickup/SKILL.md",
+        "skills/playbooks/pause-safely/SKILL.md"
       ]
     },
     "principles": [
@@ -64,10 +71,15 @@
     "helpers": [
       "skills/helpers/how-ui/SKILL.md",
       "skills/helpers/why-this-design/SKILL.md",
+      "skills/helpers/teach/SKILL.md",
       "skills/helpers/critique/SKILL.md",
       "skills/helpers/a11y/SKILL.md",
       "skills/helpers/unslop/SKILL.md",
-      "skills/helpers/setup-fstack/SKILL.md"
+      "skills/helpers/setup-fstack/SKILL.md",
+      "skills/helpers/create-verification-skill/SKILL.md",
+      "skills/helpers/maintain-verification-skill/SKILL.md",
+      "skills/helpers/show-me-your-work/SKILL.md",
+      "skills/helpers/fstack-help/SKILL.md"
     ]
   }
 }
