@@ -385,10 +385,10 @@ if [[ -f "README.md" ]]; then
         ((WARNINGS++))
     fi
     
-    if grep -q "## Skill Catalogue" README.md; then
-        echo -e "${GREEN}✓${NC} README has Skill Catalogue section"
+    if grep -qE "## (Skill Catalogue|Skills Reference)" README.md; then
+        echo -e "${GREEN}✓${NC} README has Skills Reference section"
     else
-        echo -e "${YELLOW}WARNING${NC}: README missing Skill Catalogue section"
+        echo -e "${YELLOW}WARNING${NC}: README missing Skills Reference section"
         ((WARNINGS++))
     fi
     

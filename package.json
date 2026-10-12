@@ -40,11 +40,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fstack-plugin/fstack.git"
+    "url": "git+https://github.com/MayankSingh1/fstack.git"
   },
-  "homepage": "https://github.com/fstack-plugin/fstack#readme",
+  "homepage": "https://github.com/MayankSingh1/fstack#readme",
   "bugs": {
-    "url": "https://github.com/fstack-plugin/fstack/issues"
+    "url": "https://github.com/MayankSingh1/fstack/issues"
   },
   "engines": {
     "node": ">=16.0.0"
