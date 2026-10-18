@@ -2,6 +2,12 @@
 
 Quick reference for all fstack principles. Flash-mode reads this at task start.
 
+Stack loops (do the work, grade it, then improve the harness): `/loop-engineering`.
+
+Before these principles: if `product.md` is missing at the repo root, create it. If it exists, read it and do not overwrite it.
+
+Then build a context pack (`/context`): what this task may read, and what stays out. When a fact should outlive the turn, file it with `/memory`. Do not invent a new store. A blocked action uses the `/guardrails` block and does not continue. Before a side effect, `/agentic` picks the lowest autonomy level that still does the job.
+
 ## 1. Start from the User's Task
 
 The user's stated goal is the starting point. Understand what they actually need before jumping to implementation. A clear task beats a plausible assumption.

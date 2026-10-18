@@ -30,13 +30,13 @@ Covers the flow from research and design through frontend build, review, raising
 
 ## What is fstack?
 
-fstack is a collection of **65 AI agent skills** that help designers and frontend developers work faster and more consistently. It provides:
+fstack is a collection of **73 AI agent skills** that help designers and frontend developers work faster and more consistently. It provides:
 
 | Feature | Description |
 |---------|-------------|
 | **Sticky Router** | One command (`/flash-mode`) that understands your intent and picks the right workflow |
-| **31 Playbooks** | Step-by-step workflows for design, frontend, shipping, and session management |
-| **26 Helpers** | Quick-access tools for specific tasks like accessibility checks, code review, and documentation |
+| **33 Playbooks** | Step-by-step workflows for design, frontend, shipping, and session management |
+| **32 Helpers** | Quick-access tools for specific tasks like accessibility checks, code review, and documentation |
 | **7 Principles** | Guardrails that keep your work consistent and high-quality |
 
 ### Who is this for?
@@ -159,13 +159,15 @@ fstack has one main command: **`/flash-mode`**
 
 Flash-mode is a **sticky router**. You describe what you want, and it:
 
-1. Reads the principles index
-2. Matches your request to a playbook
-3. Copies the playbook steps into a task list
-4. Calls specialist helpers when needed
-5. Delegates to appropriate models (if configured)
-6. Refuses to report success without evidence
-7. Records the task in the project changelog
+0. Ensures `product.md` exists at the repo root (creates it if missing; does not overwrite it)
+1. Builds a context pack: what this task may read, and what stays out. A fact that should outlive the turn is filed with `/memory` into an existing store.
+2. Reads the principles index
+3. Matches your request to a playbook
+4. Copies the playbook steps into a task list
+5. Calls specialist helpers when needed
+6. Delegates to appropriate models (if configured)
+7. Refuses to report success without evidence
+8. Records the task in the project changelog
 
 ### Example
 
@@ -202,17 +204,36 @@ After `/flash-mode` is invoked:
 | Say `new task` | Match a fresh playbook |
 | Say `exit` or `stop` | Leave flash-mode |
 
+### Loop engineering
+
+Useful work is a stack of loops, not a single prompt. The map is `/loop-engineering`, based on [The Art of Loop Engineering](https://www.langchain.com/blog/the-art-of-loop-engineering).
+
+| Loop | fstack |
+|------|--------|
+| 1. Agent | `/flash-mode` and the domain playbooks |
+| 2. Verification | **Verification Loop** — rubric, grade, retry (cap 3) |
+| 3. Event-driven | Documented only. A CI job, hook, or webhook should call Loop 1. No trigger playbook yet. |
+| 4. Harness improve | `/harness-improve` edits skills and rules after repeated misses |
+
+**Hillclimb** is not Loop 4. Hillclimb moves a product metric (LCP, bundle size, axe count). `/harness-improve` changes how later agent runs behave.
+
+Pilot stacks:
+
+1. **Figma to merge:** Figma to Code, then Verification Loop (visual + a11y), then Shipping. Optional `/reflect` after merge.
+2. **Performance target:** Perf Issue or Hillclimb, then Verification Loop whose grader is the measurement script.
+3. **After a pilot week:** `/harness-improve` on session notes and failed rubrics, then re-run one real task.
+
 ---
 
 ## Skills Reference
 
-fstack includes **65 skills** organized into four categories:
+fstack includes **73 skills** organized into four categories:
 
 | Category | Count | Description |
 |----------|-------|-------------|
 | [Flash Mode](#flash-mode-router) | 1 | The main router |
-| [Playbooks](#playbooks) | 31 | Multi-step workflows |
-| [Helpers](#helpers) | 26 | Quick-access tools |
+| [Playbooks](#playbooks) | 33 | Multi-step workflows |
+| [Helpers](#helpers) | 32 | Quick-access tools |
 | [Principles](#principles) | 7 | Automatic guardrails |
 
 ---
@@ -315,6 +336,8 @@ Workflows for complex multi-step or autonomous work.
 | Autopilot Full | "land these PRs" | Queue of independent PRs to merge — processes in order |
 | Autopilot Stack | "land as stack" | Queue as linear reviewed stack — maintains dependencies |
 | Authoring a Skill | "write a skill" | Create or edit SKILL.md files — follows skill authoring conventions |
+| Verification Loop | "verify before ship", "run with a grader" | Grade work against a rubric and retry with feedback (cap 3) |
+| Planner | "plan and swarm", "orchestrate this job" | Plan one job into phases, swarm each phase, and pause for a human gate |
 
 ---
 
@@ -366,6 +389,12 @@ Tools for improving your workflow.
 | Automate Me | `/automate-me` | Create a personal mode from your patterns — captures your preferences |
 | Correct | `/correct` | Stop repeated mistakes — adds guardrails to prevent specific errors |
 | Figure It Out | `/figure-it-out` | Create a custom playbook when none fits — for novel situations |
+| Loop Engineering | `/loop-engineering` | Map a task onto agent, verification, and harness loops |
+| Harness Improve | `/harness-improve` | Edit skills or rules after the same miss repeats — not metric Hillclimb |
+| Context | `/context` | Choose what this task may read, and what stays out of the window |
+| Memory | `/memory` | Choose what an agent remembers, for how long, and what it may forget |
+| Guardrails | `/guardrails` | Stop an action this repo does not allow, and say what to do instead |
+| Agentic | `/agentic` | Pick the lowest autonomy level that still does the job |
 
 #### Writing & Code Helpers
 
@@ -409,6 +438,14 @@ Principles are automatically applied by flash-mode when relevant. They act as gu
 ---
 
 ## Configuration
+
+### Product file
+
+`fstack init --platform cursor` installs `fstack-product.mdc` and `fstack-guardrails.mdc` into `.cursor/rules/` (or `~/.cursor/rules/` with `--global`). The product rule is first: before model roles and before any playbook. The guardrails rule stops merge, delete, send, spend, a `product.md` rewrite, a new memory file, or a skill edit unless `/guardrails` allows it.
+
+On the first fstack task in a repo, if `product.md` is missing at the repo root, the agent writes it from the repo and asks only for facts it cannot see. An existing `product.md` is read and left in place. Init never creates or deletes `product.md`.
+
+Other platforms do not load Cursor rules. `/flash-mode` still does this as step 0.
 
 ### Model Roles
 
@@ -530,6 +567,8 @@ fstack/
 ├── references/
 │   └── decision-log-template.tsv       # TSV template
 ├── rules/
+│   ├── fstack-product.mdc              # First rule: create product.md
+│   ├── fstack-guardrails.mdc           # Block actions this repo does not allow
 │   └── fstack-models.mdc               # Example model config
 └── skills/
     ├── flash-mode/
@@ -543,7 +582,7 @@ fstack/
     │   ├── smallest-change/
     │   ├── states-are-design/
     │   └── design-system-consistency/
-    ├── playbooks/                      # 31 playbook skills
+    ├── playbooks/                      # 33 playbook skills
     │   ├── investigation/
     │   ├── prototype/
     │   ├── design/
@@ -577,8 +616,10 @@ fstack/
     │   ├── orchestrate/
     │   ├── autopilot-full/
     │   ├── autopilot-stack/
-    │   └── authoring-a-skill/
-    └── helpers/                        # 26 helper skills
+    │   ├── authoring-a-skill/
+    │   ├── verification-loop/
+    │   └── planner/
+    └── helpers/                        # 32 helper skills
         ├── how-ui/
         ├── why-this-design/
         ├── teach/
@@ -604,7 +645,13 @@ fstack/
         ├── create-verification-skill/
         ├── maintain-verification-skill/
         ├── show-me-your-work/
-        └── flash-help/
+        ├── flash-help/
+        ├── loop-engineering/
+        ├── harness-improve/
+        ├── context/
+        ├── memory/
+        ├── guardrails/
+        └── agentic/
 ```
 
 ---
@@ -688,13 +735,16 @@ These skills are fstack originals for design/frontend work:
 | `handoff-note` | Designer-developer handoff |
 | `runtime-forensics` | Memory leaks and CPU issues |
 | `trace-forensics` | Analyze performance profiles |
+| `verification-loop` | Rubric, grade, and retry before calling work done |
+| `/loop-engineering` | Which loop to run, and how they stack |
+| `/harness-improve` | Turn repeated misses into skill or rule edits |
 
 ### Key Differences
 
 | Aspect | pstack | fstack |
 |--------|--------|--------|
 | Focus | Full engineering workflow | Design + frontend focus |
-| Skills | 30+ skills | 65 skills |
+| Skills | 30+ skills | 73 skills |
 | Router | `/poteto-mode` | `/flash-mode` |
 | Review | `/interrogate` | `/critique` |
 | Investigation | `/how`, `/why` | `/how-ui`, `/why-this-design` |

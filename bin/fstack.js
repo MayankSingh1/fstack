@@ -7,6 +7,8 @@ const os = require('os');
 const VERSION = '1.2.0';
 const PACKAGE_ROOT = path.resolve(__dirname, '..');
 const SKILLS_SOURCE = path.join(PACKAGE_ROOT, 'skills');
+const PRODUCT_RULE_SOURCE = path.join(PACKAGE_ROOT, 'rules', 'fstack-product.mdc');
+const GUARDRAILS_RULE_SOURCE = path.join(PACKAGE_ROOT, 'rules', 'fstack-guardrails.mdc');
 
 const PLATFORMS = {
   cursor: {
@@ -91,6 +93,71 @@ function countSkills() {
   return count;
 }
 
+function productRulePath(scope) {
+  if (scope === 'global') {
+    return path.join(os.homedir(), '.cursor', 'rules', 'fstack-product.mdc');
+  }
+  return path.resolve('.cursor', 'rules', 'fstack-product.mdc');
+}
+
+function installProductRule(scope) {
+  const dest = productRulePath(scope);
+  if (!fs.existsSync(PRODUCT_RULE_SOURCE)) {
+    console.error(`  Product rule source missing: ${PRODUCT_RULE_SOURCE}`);
+    return false;
+  }
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.copyFileSync(PRODUCT_RULE_SOURCE, dest);
+  console.log(`  ✓ Product rule: ${dest}`);
+  return true;
+}
+
+function removeProductRule(scope) {
+  const dest = productRulePath(scope);
+  if (!fs.existsSync(dest)) return false;
+  fs.rmSync(dest, { force: true });
+  console.log(`  ✓ Removed product rule: ${dest}`);
+  return true;
+}
+
+function guardrailsRulePath(scope) {
+  if (scope === 'global') {
+    return path.join(os.homedir(), '.cursor', 'rules', 'fstack-guardrails.mdc');
+  }
+  return path.resolve('.cursor', 'rules', 'fstack-guardrails.mdc');
+}
+
+function installGuardrailsRule(scope) {
+  const dest = guardrailsRulePath(scope);
+  if (!fs.existsSync(GUARDRAILS_RULE_SOURCE)) {
+    console.error(`  Guardrails rule source missing: ${GUARDRAILS_RULE_SOURCE}`);
+    return false;
+  }
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.copyFileSync(GUARDRAILS_RULE_SOURCE, dest);
+  console.log(`  ✓ Guardrails rule: ${dest}`);
+  return true;
+}
+
+function removeGuardrailsRule(scope) {
+  const dest = guardrailsRulePath(scope);
+  if (!fs.existsSync(dest)) return false;
+  fs.rmSync(dest, { force: true });
+  console.log(`  ✓ Removed guardrails rule: ${dest}`);
+  return true;
+}
+
+function installCursorRules(scope) {
+  installProductRule(scope);
+  installGuardrailsRule(scope);
+}
+
+function removeCursorRules(scope) {
+  const removedProduct = removeProductRule(scope);
+  const removedGuardrails = removeGuardrailsRule(scope);
+  return removedProduct || removedGuardrails;
+}
+
 function install(platform, scope = 'local', targetPath = null) {
   let dest;
   
@@ -108,6 +175,9 @@ function install(platform, scope = 'local', targetPath = null) {
         if (copyRecursive(SKILLS_SOURCE, target)) {
           console.log(`  ✓ ${config.name}: ${target}`);
           installed++;
+          if (key === 'cursor') {
+            installCursorRules(scope);
+          }
         }
       }
     }
@@ -136,6 +206,10 @@ function install(platform, scope = 'local', targetPath = null) {
   if (copyRecursive(SKILLS_SOURCE, dest)) {
     const skillCount = countSkills();
     console.log(`  ✓ Copied ${skillCount} skills`);
+    if (platform === 'cursor' && !targetPath) {
+      installCursorRules(scope);
+      console.log('  First fstack task writes product.md at the repo root if it is missing.');
+    }
     console.log(`\n✨ fstack v${VERSION} installed successfully!\n`);
     console.log('Start with: /flash-mode <your task>\n');
   } else {
@@ -160,6 +234,8 @@ function uninstall(platform, scope = 'local') {
         }
       }
     }
+    if (removeCursorRules('local')) removed++;
+    if (removeCursorRules('global')) removed++;
     console.log(`\n✨ Removed ${removed} installation(s)\n`);
     return;
   }
@@ -171,11 +247,13 @@ function uninstall(platform, scope = 'local') {
   }
 
   const dest = scope === 'global' ? config.global : path.resolve(config.local);
-  
-  if (fs.existsSync(dest)) {
+  const removedSkills = fs.existsSync(dest);
+  const removedRule = platform === 'cursor' && removeCursorRules(scope);
+
+  if (removedSkills) {
     fs.rmSync(dest, { recursive: true, force: true });
     console.log(`\n✓ Removed fstack from: ${dest}\n`);
-  } else {
+  } else if (!removedRule) {
     console.log(`\nfstack not found at: ${dest}\n`);
   }
 }

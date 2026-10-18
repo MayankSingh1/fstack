@@ -38,6 +38,7 @@ Maps your question to the right fstack skill, playbook, or principle.
 | Is this accessible? | `/a11y` or **Accessibility Audit** playbook |
 | Does this work on mobile? | **Responsive & Cross-Browser** playbook |
 | Can I verify this feature? | `/create-verification-skill` |
+| Grade this and retry until it passes | **Verification Loop** playbook |
 
 ### "I want to ship..."
 
@@ -76,9 +77,14 @@ Maps your question to the right fstack skill, playbook, or principle.
 | Keep a decision trail | `/show-me-your-work` |
 | Configure fstack | `/setup-fstack` |
 | Catch me up on context | `/recall` |
+| What should this task read? | `/context` |
+| What should I remember, or can I forget this? | `/memory` |
+| Is this allowed, or why did you stop? | `/guardrails` |
+| How much authority should this action have? | `/agentic` |
 | Finish without me | **Autonomous Run** playbook |
 | Multiple PRs, stacked | **Multi-Phase Plan** playbook |
 | Coordinate workstreams | **Orchestrate** playbook |
+| Plan one job and swarm each phase | **Planner** playbook |
 
 ### "I want to improve..."
 
@@ -90,6 +96,8 @@ Maps your question to the right fstack skill, playbook, or principle.
 | What could this break | `/blast-radius` |
 | Turn learnings into skills | `/reflect` |
 | Create my personal mode | `/automate-me` |
+| Which loop should I stack? | `/loop-engineering` |
+| Agents keep missing the same thing | `/harness-improve` (not Hillclimb) |
 
 ### "I want to write..."
 
@@ -135,6 +143,12 @@ Maps your question to the right fstack skill, playbook, or principle.
 | Command | Purpose |
 |---------|---------|
 | `/reflect` | Turn learnings into skill edits |
+| `/loop-engineering` | Map a task onto agent, verification, and harness loops |
+| `/harness-improve` | Edit skills or rules after repeated misses |
+| `/context` | Choose what this task may read |
+| `/memory` | Choose what lasts, and what may be forgotten |
+| `/guardrails` | Block an action this repo does not allow |
+| `/agentic` | Lowest autonomy level for one action |
 | `/automate-me` | Create personal mode from patterns |
 | `/correct` | Stop repeated mistakes |
 | `/figure-it-out` | Custom playbook when none fits |
@@ -210,9 +224,11 @@ Maps your question to the right fstack skill, playbook, or principle.
 | Autonomous Run | Finish without human intervention |
 | Multi-Phase Plan | Work spanning multiple PRs |
 | Orchestrate | Coordinate across workstreams |
+| Planner | Plan one job, swarm each phase, show the handoff and the gate |
 | Autopilot Full | Land queue of independent PRs |
 | Autopilot Stack | Land PRs as linear stack |
 | Authoring a Skill | Write or edit a SKILL.md |
+| Verification Loop | Rubric, grade, retry up to 3 times |
 
 ## Principles
 
@@ -254,6 +270,19 @@ What do you want to do?
 ├─ Review something
 │  ├─ Design feedback → /critique
 │  └─ Clean up text → /unslop
+│
+├─ Stack loops
+│  ├─ Which loop? → /loop-engineering
+│  ├─ Grade and retry → Verification Loop playbook
+│  └─ Fix the harness → /harness-improve
+│
+├─ Set the window
+│  ├─ What may this task read? → /context
+│  ├─ What lasts, and what may be forgotten? → /memory
+│  └─ Is this allowed? → /guardrails
+│
+├─ Choose authority
+│  └─ How much should the agent do? → /agentic
 │
 └─ Manage session
    ├─ Continue work → Session Pickup playbook

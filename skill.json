@@ -69,7 +69,9 @@
         "skills/playbooks/orchestrate/SKILL.md",
         "skills/playbooks/autopilot-full/SKILL.md",
         "skills/playbooks/autopilot-stack/SKILL.md",
-        "skills/playbooks/authoring-a-skill/SKILL.md"
+        "skills/playbooks/authoring-a-skill/SKILL.md",
+        "skills/playbooks/verification-loop/SKILL.md",
+        "skills/playbooks/planner/SKILL.md"
       ]
     },
     "principles": [
@@ -93,6 +95,12 @@
       "skills/helpers/maintain-verification-skill/SKILL.md",
       "skills/helpers/show-me-your-work/SKILL.md",
       "skills/helpers/flash-help/SKILL.md",
+      "skills/helpers/loop-engineering/SKILL.md",
+      "skills/helpers/harness-improve/SKILL.md",
+      "skills/helpers/context/SKILL.md",
+      "skills/helpers/memory/SKILL.md",
+      "skills/helpers/guardrails/SKILL.md",
+      "skills/helpers/agentic/SKILL.md",
       "skills/helpers/changelog-notetaker/SKILL.md",
       "skills/helpers/automate-me/SKILL.md",
       "skills/helpers/reflect/SKILL.md",

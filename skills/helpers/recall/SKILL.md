@@ -42,6 +42,8 @@ Before starting or resuming work, rebuild the user's recent working context and 
 
 If the user already gave a full state capsule, use it and skip mining.
 
+A transcript is not product memory and not harness memory. To keep a fact past this chat, file it with `/memory`. Do not copy transcript text into `product.md` or a skill.
+
 ### 2. Lock the scope
 
 Pin:

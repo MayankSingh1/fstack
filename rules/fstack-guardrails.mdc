@@ -1,0 +1,27 @@
+---
+description: "fstack guardrails. Before a gated action, check /guardrails and stop with a named block."
+alwaysApply: true
+---
+
+# Guardrails
+
+Before any of these actions, follow `/guardrails`:
+
+- Merge or land a pull request
+- Delete files, decision rows, or a resume note that is still needed
+- Send a message or spend money
+- Rewrite `product.md`
+- Create a new memory file
+- Edit a skill or rule
+
+If the permission is not allow, emit the block and stop. Do not continue, and do not answer with "something went wrong".
+
+```text
+BLOCKED: [permission]
+Tried: [the action]
+Rule: [skill or rule]
+Instead: [the allowed next step]
+Override: [the sentence the user must send, or "none"]
+```
+
+"Just do it" is not an override. The user must name the action. Merge, replacing `product.md`, and deleting decision rows have no agent override.

@@ -12,12 +12,14 @@ You are now in **flash-mode** — the fstack router for design and frontend work
 
 ## How Flash Mode Works
 
-1. **Read the principles index** at the start of every task
-2. **Match the request** to a playbook
-3. **Copy the playbook verbatim** into the task list (skipped steps stay listed with a reason)
-4. **Call specialist skills** when their step arrives
-5. **Delegate by model role** when available (see `~/.cursor/rules/fstack-models.mdc`)
-6. **Refuse to report success** without evidence on the real artifact
+0. **Ensure `product.md` exists** at the repo root before anything else. If it is missing, create it with the template in `fstack-product.mdc` (`.cursor/rules/fstack-product.mdc`, `~/.cursor/rules/fstack-product.mdc`, or `rules/fstack-product.mdc` in this package). Required sections: name, one-sentence description, who it is for, primary user tasks, non-goals, surfaces, design system, how to run and prove on the real screen, constraints. Draft from the repo and ask only for facts you cannot see. If `product.md` exists, read it and do not overwrite it. Keep the task inside that product. Do not write this file inside `node_modules` or the fstack package.
+1. **Build a context pack** with `/context` before matching a playbook in full. Open only files named in the pack or in the current step. On `new task`, throw away the old pack and build a new one. When a fact should outlive the turn, file it with `/memory`. Do not invent a new store. A blocked action uses the `/guardrails` block and does not continue. Before a side effect, `/agentic` picks the lowest autonomy level that still does the job.
+2. **Read the principles index** at the start of every task
+3. **Match the request** to a playbook
+4. **Copy the playbook verbatim** into the task list (skipped steps stay listed with a reason)
+5. **Call specialist skills** when their step arrives
+6. **Delegate by model role** when available (see `~/.cursor/rules/fstack-models.mdc`)
+7. **Refuse to report success** without evidence on the real artifact
 
 ## Principles Index
 
@@ -95,9 +97,11 @@ Match the user's request to the most appropriate playbook:
 | Finish without me, autonomous | **Autonomous Run** |
 | Multiple PRs, stacked changes | **Multi-Phase Plan** |
 | Coordinate across workstreams | **Orchestrate** |
+| Plan this and swarm the phases, orchestrate this job | **Planner** |
 | Land queue of PRs | **Autopilot Full** |
 | Land as stacked PRs | **Autopilot Stack** |
 | Write a skill | **Authoring a Skill** |
+| Verify before ship, run with a grader, retry until the rubric passes | **Verification Loop** |
 
 ## Task List Format
 
@@ -146,11 +150,18 @@ If no role file exists, use the current model for all work.
 | No scripted verification exists | `/create-verification-skill` |
 | Verification skill needs update | `/maintain-verification-skill` |
 | "What skill do I use?" | `/flash-help` |
+| Which loop, stack loops, loopcraft | `/loop-engineering` |
+| Same miss twice, improve the harness (not a product metric) | `/harness-improve` |
 | Design component API first | `/architect` |
 | Compare competing approaches | `/arena` |
 | Parallel workers across slices | `/swarm` |
+| Plan and swarm the phases of one job | `/planner` |
 | What could this break | `/blast-radius` |
 | Catch me up, recall context | `/recall` |
+| What may this task read, the window is noisy | `/context` |
+| Remember this, can I forget this, where does this go | `/memory` |
+| Is this allowed, why did you stop | `/guardrails` |
+| How much authority, before a side effect | `/agentic` |
 | No playbook fits | `/figure-it-out` |
 | Clean up comments | `/no-comments` |
 | TypeScript patterns | `/typescript-best-practices` |

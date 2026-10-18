@@ -1,0 +1,60 @@
+---
+description: "First fstack rule. Create product.md at the repo root before any other fstack work."
+alwaysApply: true
+---
+
+# Product file
+
+This rule runs before model roles and before any fstack playbook or helper.
+
+When fstack skills are installed in a repository, the first action is a root `product.md`.
+
+## When it applies
+
+Apply this in the repository you are working in.
+
+- If `product.md` is missing at the repo root, write it before playbooks, helpers, or code changes.
+- If `product.md` already exists, read it and do not overwrite it. Keep later work inside that product.
+- Do not create `product.md` inside `node_modules` or inside the fstack package itself.
+
+## How to write it
+
+Draft from the repo: README, `package.json`, app entry, and routes. Ask the user only for facts you cannot see.
+
+Use this template:
+
+```markdown
+# Product
+
+## Name
+[Product name]
+
+## Description
+[One sentence: what this product is]
+
+## Who it is for
+[Primary users]
+
+## Primary user tasks
+- [Task the user is trying to finish]
+
+## Non-goals
+- [What this product is not]
+
+## Surfaces
+- [web, mobile, desktop, email, …]
+
+## Design system
+[Where tokens and components live, or "none yet"]
+
+## Run and prove
+- Run: [command]
+- Prove on the real screen: [url or route, and what to capture]
+
+## Constraints
+- Accessibility: [bar, default WCAG 2.2 AA]
+- Browsers / devices: [what must work]
+- Design system: [match existing patterns, or name the system]
+```
+
+Leave a field blank only when the repo does not say and the user has not answered. Do not invent users, metrics, or constraints.

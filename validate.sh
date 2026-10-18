@@ -130,6 +130,8 @@ advanced_playbooks=(
     "skills/playbooks/autopilot-full/SKILL.md"
     "skills/playbooks/autopilot-stack/SKILL.md"
     "skills/playbooks/authoring-a-skill/SKILL.md"
+    "skills/playbooks/verification-loop/SKILL.md"
+    "skills/playbooks/planner/SKILL.md"
 )
 
 # Check design playbooks
@@ -220,6 +222,12 @@ helpers=(
     "skills/helpers/no-comments/SKILL.md"
     "skills/helpers/technical-writing/SKILL.md"
     "skills/helpers/bro/SKILL.md"
+    "skills/helpers/loop-engineering/SKILL.md"
+    "skills/helpers/harness-improve/SKILL.md"
+    "skills/helpers/context/SKILL.md"
+    "skills/helpers/memory/SKILL.md"
+    "skills/helpers/guardrails/SKILL.md"
+    "skills/helpers/agentic/SKILL.md"
 )
 
 for helper in "${helpers[@]}"; do
@@ -365,6 +373,32 @@ if [[ -f "references/decision-log-template.tsv" ]]; then
     echo -e "${GREEN}✓${NC} references/decision-log-template.tsv exists"
 else
     echo -e "${RED}✗${NC} references/decision-log-template.tsv (MISSING)"
+    ((ERRORS++))
+fi
+
+if [[ -f "rules/fstack-guardrails.mdc" ]]; then
+    echo -e "${GREEN}✓${NC} rules/fstack-guardrails.mdc exists"
+    if grep -q "^alwaysApply: true" rules/fstack-guardrails.mdc && grep -q "BLOCKED:" rules/fstack-guardrails.mdc; then
+        echo -e "${GREEN}✓${NC} rules/fstack-guardrails.mdc is the guardrails rule"
+    else
+        echo -e "${RED}✗${NC} rules/fstack-guardrails.mdc is missing alwaysApply or BLOCKED"
+        ((ERRORS++))
+    fi
+else
+    echo -e "${RED}✗${NC} rules/fstack-guardrails.mdc (MISSING)"
+    ((ERRORS++))
+fi
+
+if [[ -f "rules/fstack-product.mdc" ]]; then
+    echo -e "${GREEN}✓${NC} rules/fstack-product.mdc exists"
+    if grep -q "^alwaysApply: true" rules/fstack-product.mdc && grep -q "product.md" rules/fstack-product.mdc; then
+        echo -e "${GREEN}✓${NC} rules/fstack-product.mdc is the product.md rule"
+    else
+        echo -e "${RED}✗${NC} rules/fstack-product.mdc is missing alwaysApply or product.md"
+        ((ERRORS++))
+    fi
+else
+    echo -e "${RED}✗${NC} rules/fstack-product.mdc (MISSING)"
     ((ERRORS++))
 fi
 
