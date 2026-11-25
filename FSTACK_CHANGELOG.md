@@ -1,5 +1,24 @@
 # fstack Changelog
 
+## 2026-11-25 · Redesign after alyn.dev: fstack website
+
+**Playbook:** wireframe-to-hifi · **Reference:** https://alyn.dev/ (inspected: content, computed styles, full-page captures)
+
+### Summary
+Restyled the site on alyn.dev's patterns with fstack's own content and visuals: cool grey palette
+(#F5F6F7 / #02070A), Inter at weight 500 with tight tracking, floating glass-pill nav, rounded sky
+hero panel (original CSS gradient, no copied imagery) with giant wordmark, floating helper chips and
+popular-playbook cards, two-tone headings, role cards, bento feature cards, a five-column skill index,
+two-column FAQ and a sky CTA. No invented stars or install counts; every number comes from skill.json.
+
+### Files changed
+- `site/src/pages/index.astro`, `site/src/pages/skills/index.astro` (adds `?role=`)
+- `site/src/layouts/Base.astro`, `site/src/styles/global.css`, `site/src/lib/skills.ts` (roles, step counts)
+
+### Evidence
+- 1440 light/dark and 390/768: no horizontal scroll, nav fits, no console errors.
+- Agent tabs update command and path; `/skills?role=frontend` → 8, clear → 65, unknown role → 65.
+
 ## 2026-11-25 · Minimal redesign: fstack website home page
 
 **Playbook:** wireframe-to-hifi (direction set without live Awwwards references: awwwards.com reset the connection from this environment)

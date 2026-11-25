@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getSkills, counts, groupLabels } from '../../lib/skills';
+import { getSkills, counts, groupLabels, roles } from '../../lib/skills';
 
 const skills = getSkills();
 const c = counts();
@@ -34,10 +34,10 @@ const typeLabel = { router: 'Router', playbook: 'Playbook', helper: 'Helper', pr
 
   <section class="list-sec">
     <div class="wrap">
-      <p class="count" aria-live="polite"><span id="shown">{c.total}</span> skills</p>
+      <p class="count" aria-live="polite"><span id="shown">{c.total}</span> skills<span id="role-note" hidden> for <b id="role-name"></b> · <button type="button" id="role-clear">show all</button></span></p>
       <ul class="grid" id="grid">
         {skills.map((s) => (
-          <li data-type={s.type} data-group={s.group} data-text={`${s.name} ${s.description}`.toLowerCase()}>
+          <li data-type={s.type} data-group={s.group} data-roles={roles.filter((r) => r.slugs.includes(s.slug)).map((r) => r.id).join(' ')} data-text={`${s.name} ${s.description}`.toLowerCase()}>
             <a href={`/skills/${s.slug}`}>
               <span class="meta"><span class={`t t-${s.type}`}>{typeLabel[s.type]}</span>{s.type === 'playbook' && <span class="g">{groupLabels[s.group]}</span>}</span>
               <span class="nm">{s.type === 'helper' || s.type === 'router' ? `/${s.name}` : s.name}</span>
@@ -58,16 +58,23 @@ const typeLabel = { router: 'Router', playbook: 'Playbook', helper: 'Helper', pr
   const shown = document.getElementById('shown')!;
   const empty = document.getElementById('empty')!;
   let filter = 'all';
+  const roleNames: Record<string, string> = {product: 'product designers', ux: 'UX designers', ui: 'UI designers', frontend: 'frontend developers'};
+  let role = new URLSearchParams(location.search).get('role') || '';
+  if (!roleNames[role]) role = '';
+  const roleNote = document.getElementById('role-note')!;
   const apply = () => {
     const term = q.value.trim().toLowerCase();
     let n = 0;
     items.forEach((li) => {
-      const okF = filter === 'all' || li.dataset.type === filter || li.dataset.group === filter;
+      const okF = (filter === 'all' || li.dataset.type === filter || li.dataset.group === filter)
+        && (!role || (li.dataset.roles || '').split(' ').includes(role));
       const okQ = !term || term.split(/\s+/).every((t) => li.dataset.text!.includes(t));
       li.hidden = !(okF && okQ);
       if (!li.hidden) n++;
     });
     shown.textContent = String(n);
+    roleNote.hidden = !role;
+    if (role) document.getElementById('role-name')!.textContent = roleNames[role];
     empty.hidden = n !== 0;
   };
   buttons.forEach((b) => b.addEventListener('click', () => {
@@ -77,6 +84,11 @@ const typeLabel = { router: 'Router', playbook: 'Playbook', helper: 'Helper', pr
   }));
   q.addEventListener('input', apply);
   document.getElementById('reset')!.addEventListener('click', () => { q.value = ''; buttons[0].click(); q.focus(); });
+  document.getElementById('role-clear')!.addEventListener('click', () => {
+    role = '';
+    const u = new URL(location.href); u.searchParams.delete('role'); history.replaceState(null, '', u);
+    apply();
+  });
   const params = new URLSearchParams(location.search);
   const wanted = params.get('group') || params.get('type');
   const match = wanted && buttons.find((b) => b.dataset.filter === wanted);
@@ -87,6 +99,7 @@ const typeLabel = { router: 'Router', playbook: 'Playbook', helper: 'Helper', pr
     if (filter === 'all') u.searchParams.delete('group'); else u.searchParams.set('group', filter);
     history.replaceState(null, '', u);
   }));
+  apply();
 </script>
 
 <style>
@@ -103,6 +116,8 @@ const typeLabel = { router: 'Router', playbook: 'Playbook', helper: 'Helper', pr
   .filters button[aria-pressed='true'] span { color: color-mix(in srgb, var(--bg) 65%, transparent); }
   .list-sec { padding-bottom: 80px; }
   .count { font: 13px var(--font-mono); color: var(--ink-3); margin: 0 0 14px; }
+  .count b { color: var(--ink); font-weight: 500; }
+  .count button { font: inherit; color: var(--flash-text); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
   .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 14px; }
   .grid li[hidden] { display: none; }
   .grid a { display: flex; flex-direction: column; gap: 8px; height: 100%; padding: 18px 20px 20px; border-radius: var(--radius-lg); background: var(--bg-raised); box-shadow: var(--shadow); text-decoration: none; transition: transform .15s ease; }

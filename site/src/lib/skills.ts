@@ -10,6 +10,7 @@ export interface Skill {
   name: string;
   description: string;
   short: string;
+  steps: number;
   type: SkillType;
   group: string;
   file: string;
@@ -65,6 +66,7 @@ function load(file: string, type: SkillType, group: string): Skill {
     name: slug,
     description,
     short,
+    steps: (body.match(/^\s*□ Step \d+/gm) || []).length,
     type,
     group,
     file,
@@ -144,3 +146,11 @@ export function readRepoFile(rel: string): string {
 
 export const repoUrl = 'https://github.com/MayankSingh1/fstack';
 export const npmUrl = 'https://www.npmjs.com/package/fstack-skills';
+
+export interface Role { id: string; label: string; title: string; blurb: string; slugs: string[] }
+export const roles: Role[] = [
+  { id: 'product', label: 'Product designers', title: 'Product design setup', blurb: 'Frame the problem, map flows and IA, take wireframes to hi-fi, hand off cleanly.', slugs: ['problem-framing', 'user-flows-ia', 'wireframe-to-hifi', 'design-critique', 'prototype', 'handoff-note', 'critique'] },
+  { id: 'ux', label: 'UX designers', title: 'UX writing and review', blurb: 'Copy that helps, every state designed, critique from several reviewers.', slugs: ['ux-copy', 'user-flows-ia', 'design-critique', 'critique', 'a11y', 'unslop', 'states-are-design'] },
+  { id: 'ui', label: 'UI designers', title: 'Design system setup', blurb: 'Tokens and components the code actually uses, matched to Figma.', slugs: ['design-system', 'wireframe-to-hifi', 'visual-parity', 'figma-to-code', 'tokens-over-hardcoded', 'design-system-consistency', 'why-this-design'] },
+  { id: 'frontend', label: 'Frontend developers', title: 'Frontend workflow', blurb: 'Figma to code, pixel parity, accessibility and responsive checks, then a PR.', slugs: ['figma-to-code', 'visual-parity', 'accessibility-audit', 'responsive-cross-browser', 'component-refactor', 'bug-fix', 'open-pr', 'tdd'] },
+];
