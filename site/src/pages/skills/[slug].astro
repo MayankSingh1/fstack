@@ -1,0 +1,102 @@
+---
+import Base from '../../layouts/Base.astro';
+import CopyCommand from '../../components/CopyCommand.astro';
+import { getSkills, renderMarkdown, groupLabels, repoUrl, type Skill } from '../../lib/skills';
+
+export function getStaticPaths() {
+  const all = getSkills();
+  return all.map((skill, i) => ({ params: { slug: skill.slug }, props: { skill, prev: all[i - 1] ?? null, next: all[i + 1] ?? null } }));
+}
+interface Props { skill: Skill; prev: Skill | null; next: Skill | null }
+const { skill, prev, next } = Astro.props;
+const { html, headings } = renderMarkdown(skill.body);
+const toc = headings.filter((h) => h.depth === 2);
+const typeLabel = { router: 'Router', playbook: 'Playbook', helper: 'Helper', principle: 'Principle' }[skill.type];
+const invoke =
+  skill.type === 'helper' ? `/${skill.name}` :
+  skill.type === 'router' ? '/flash-mode' :
+  skill.type === 'playbook' ? `/flash-mode <describe your task>` : null;
+const related = getSkills().filter((s) => s.slug !== skill.slug && s.group === skill.group).slice(0, 4);
+---
+<Base title={`${skill.name} — fstack ${typeLabel.toLowerCase()}`} description={skill.description} active="skills">
+  <div class="wrap layout">
+    <aside class="side">
+      <a class="back" href="/skills">← All skills</a>
+      {toc.length > 0 && (
+        <nav aria-label="On this page">
+          <p>On this page</p>
+          <ul>{toc.map((h) => <li><a href={`#${h.id}`}>{h.text}</a></li>)}</ul>
+        </nav>
+      )}
+    </aside>
+    <article>
+      <header class="head">
+        <p class="meta"><span class={`t t-${skill.type}`}>{typeLabel}</span>{skill.type === 'playbook' && <span>{groupLabels[skill.group]}</span>}</p>
+        <p class="desc">{skill.description}</p>
+        {invoke && (
+          <div class="use">
+            <span>{skill.type === 'playbook' ? 'Picked by the router when you run' : 'Run it with'}</span>
+            <code>{invoke}</code>
+          </div>
+        )}
+        <a class="src" href={`${repoUrl}/blob/main/${skill.file}`}>View source: <code>{skill.file}</code></a>
+      </header>
+      <div class="prose" set:html={html} />
+      <nav class="pn" aria-label="Previous and next skill">
+        {prev ? <a href={`/skills/${prev.slug}`}><span>Previous</span>{prev.name}</a> : <span></span>}
+        {next ? <a class="nx" href={`/skills/${next.slug}`}><span>Next</span>{next.name}</a> : <span></span>}
+      </nav>
+      {related.length > 0 && (
+        <section class="rel">
+          <h2>More in {skill.type === 'playbook' ? groupLabels[skill.group] : typeLabel + 's'}</h2>
+          <ul>{related.map((r) => <li><a href={`/skills/${r.slug}`}><b>{r.name}</b><span>{r.short}</span></a></li>)}</ul>
+        </section>
+      )}
+      <div class="get">
+        <p>Get this and {getSkills().length - 1} other skills:</p>
+        <CopyCommand cmd="npx fstack-skills init --platform claude-code" />
+      </div>
+    </article>
+  </div>
+</Base>
+
+<style>
+  .layout { display: grid; grid-template-columns: 220px minmax(0, 760px); gap: clamp(24px, 5vw, 72px); padding-top: clamp(32px, 5vw, 56px); padding-bottom: 40px; }
+  .side { position: sticky; top: 84px; align-self: start; max-height: calc(100vh - 100px); overflow: auto; font-size: 14.5px; }
+  .back { display: inline-block; text-decoration: none; color: var(--ink-2); margin-bottom: 28px; }
+  .back:hover { color: var(--ink); }
+  .side p { font: 500 12.5px var(--font-mono); color: var(--ink-3); margin: 0 0 10px; }
+  .side ul { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); }
+  .side li a { display: block; padding: 5px 0 5px 14px; margin-left: -1px; border-left: 1px solid transparent; text-decoration: none; color: var(--ink-2); line-height: 1.35; }
+  .side li a:hover { color: var(--ink); border-left-color: var(--ink); }
+  .head { margin-bottom: 36px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+  .meta { display: flex; gap: 10px; align-items: center; font: 500 12.5px var(--font-mono); color: var(--ink-3); margin: 0 0 14px; }
+  .t { padding: 3px 8px; border-radius: 6px; background: var(--bg-sunk); color: var(--ink-2); }
+  .t-router { background: var(--flash); color: var(--flash-ink); }
+  .desc { font-size: 19px; color: var(--ink-2); margin: 0 0 20px; max-width: 36em; }
+  .use { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 14.5px; color: var(--ink-3); margin-bottom: 14px; }
+  .use code { background: var(--code-bg); color: var(--code-ink); padding: 6px 10px; border-radius: 8px; font-size: 13.5px; }
+  .src { font-size: 13.5px; color: var(--ink-3); text-decoration: none; overflow-wrap: anywhere; }
+  .src:hover { color: var(--ink); }
+  .src code { font-size: 12.5px; }
+  .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 56px; }
+  .pn a { display: flex; flex-direction: column; gap: 2px; padding: 16px 18px; border-radius: var(--radius); background: var(--bg-raised); box-shadow: var(--shadow); text-decoration: none; font-family: var(--font-mono); font-size: 15px; overflow-wrap: anywhere; }
+  .pn a span { font: 12.5px var(--font-sans); color: var(--ink-3); }
+  .pn .nx { text-align: right; }
+  .rel { margin-top: 48px; }
+  .rel h2 { font: 500 13px var(--font-mono); color: var(--ink-3); margin: 0 0 12px; }
+  .rel ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .rel a { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; height: 100%; }
+  .rel a:hover { border-color: var(--ink-3); }
+  .rel b { font: 500 14.5px var(--font-mono); }
+  .rel span { font-size: 13.5px; color: var(--ink-3); }
+  .get { margin-top: 48px; padding: 22px; border-radius: var(--radius-lg); background: var(--bg-sunk); }
+  .get p { margin: 0 0 12px; font-weight: 500; }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    .side { position: static; max-height: none; }
+    .side nav { display: none; }
+    .back { margin-bottom: 0; }
+    .rel ul { grid-template-columns: 1fr; }
+  }
+</style>

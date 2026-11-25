@@ -233,7 +233,7 @@ function info(quiet = false) {
 ║   Then in your IDE:                                           ║
 ║     /flash-mode implement this Figma design                  ║
 ║                                                               ║
-║   Docs: https://github.com/fstack-plugin/fstack              ║
+║   Docs: https://github.com/MayankSingh1/fstack               ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 `);
@@ -283,7 +283,7 @@ SUPPORTED PLATFORMS:
 After installing, start with:
   /flash-mode <your task>
 
-Documentation: https://github.com/fstack-plugin/fstack
+Documentation: https://github.com/MayankSingh1/fstack
 `);
 }
 

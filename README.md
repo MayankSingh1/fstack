@@ -109,7 +109,7 @@ fstack help          # Show help
 ### Manual Installation
 
 ```bash
-git clone https://github.com/fstack-plugin/fstack.git
+git clone https://github.com/MayankSingh1/fstack.git
 cp -r fstack/skills/ ~/.cursor/skills/fstack/  # or your platform's path
 ```
 

@@ -1,0 +1,24 @@
+---
+interface Props { cmd: string; size?: 'md' | 'lg' }
+const { cmd, size = 'md' } = Astro.props;
+---
+<div class:list={['copycmd', size]}>
+  <code><span class="prompt" aria-hidden="true">$</span>{cmd}</code>
+  <button type="button" data-copy={cmd} aria-label={`Copy command: ${cmd}`}>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+    <span class="copy-label">Copy</span>
+  </button>
+</div>
+
+<style>
+  .copycmd { display: flex; align-items: center; gap: 8px; background: var(--code-bg); color: var(--code-ink); border-radius: var(--radius); padding: 6px 6px 6px 16px; max-width: 100%; min-width: 0; }
+  .copycmd.lg { padding: 8px 8px 8px 18px; }
+  code { flex: 1; min-width: 0; font-size: 14px; white-space: nowrap; overflow-x: auto; scrollbar-width: none; padding: 8px 0; }
+  .lg code { font-size: 15px; }
+  code::-webkit-scrollbar { display: none; }
+  @media (max-width: 560px) { code { white-space: normal; overflow-wrap: anywhere; line-height: 1.5; } }
+  .prompt { color: var(--flash); margin-right: 10px; user-select: none; }
+  button { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 8px; border: 0; background: rgba(255,255,255,.08); color: var(--code-ink); font: 500 13px var(--font-sans); cursor: pointer; }
+  button:hover { background: rgba(255,255,255,.16); }
+  :global(button.copied) { background: var(--flash) !important; color: var(--flash-ink) !important; }
+</style>

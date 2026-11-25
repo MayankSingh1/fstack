@@ -1,0 +1,157 @@
+---
+const demos = [
+  {
+    label: 'Match Figma',
+    prompt: 'make this button match the Figma design',
+    playbook: 'Visual Parity',
+    slug: 'visual-parity',
+    helpers: ['/a11y', '/changelog-notetaker'],
+    steps: ['Identify the source of truth', 'Capture design screenshot', 'Capture implementation screenshot', 'Run pixel-level diff', 'Apply fixes with tokens', 'Verify all states', 'Final diff', 'Record in changelog'],
+    evidence: '0 px diff, or documented deviations',
+  },
+  {
+    label: 'Audit a form',
+    prompt: 'audit this page for accessibility',
+    playbook: 'Accessibility Audit',
+    slug: 'accessibility-audit',
+    helpers: ['/a11y', '/critique'],
+    steps: ['Run automated checks', 'Keyboard navigation audit', 'Screen reader testing', 'Color and contrast', 'Forms and inputs', 'Fix critical issues', 'Retest', 'Record in changelog'],
+    evidence: 'WCAG 2.2 AA findings, fixed and retested',
+  },
+  {
+    label: 'Build from Figma',
+    prompt: 'implement this Figma design for the dashboard header',
+    playbook: 'Figma to Code',
+    slug: 'figma-to-code',
+    helpers: ['/architect', '/a11y'],
+    steps: ['Analyze the Figma design', 'Map to existing components', 'Extract design tokens', 'Implement structure first', 'Implement all states', 'Add responsive behavior', 'Visual comparison', 'Record in changelog'],
+    evidence: 'Side-by-side screenshots at every breakpoint',
+  },
+  {
+    label: 'Write error copy',
+    prompt: 'write the error messages for this form',
+    playbook: 'UX Copy',
+    slug: 'ux-copy',
+    helpers: ['/unslop', '/a11y'],
+    steps: ['Understand the context', 'Gather existing patterns', "Write for the user's task", 'Handle errors with care', 'Design empty states', 'Run unslop check', 'Document copy decisions', 'Record in changelog'],
+    evidence: 'Copy table with rationale per string',
+  },
+  {
+    label: 'Open a PR',
+    prompt: 'open a PR for these changes',
+    playbook: 'Open PR',
+    slug: 'open-pr',
+    helpers: ['/blast-radius', '/unslop'],
+    steps: ['Verify changes are complete', 'Self-review the diff', 'Capture before/after evidence', 'Write PR title and description', 'Add accessibility notes', 'Set reviewers and labels', 'Final check', 'Record in changelog'],
+    evidence: 'Before/after screenshots in the PR body',
+  },
+];
+---
+<div class="demo" data-demo>
+  <div class="tabs" role="tablist" aria-label="Example requests">
+    {demos.map((d, i) => (
+      <button role="tab" type="button" id={`demo-tab-${i}`} aria-controls={`demo-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{d.label}</button>
+    ))}
+  </div>
+  <div class="window">
+    <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>agent session</span></div>
+    {demos.map((d, i) => (
+      <div class="panel" role="tabpanel" id={`demo-panel-${i}`} aria-labelledby={`demo-tab-${i}`} hidden={i !== 0}>
+        <p class="you"><span class="who">you</span><code><b>/flash-mode</b> {d.prompt}</code></p>
+        <div class="route">
+          <span class="who">fstack</span>
+          <div class="route-body">
+            <p class="picked">Matched playbook <a href={`/skills/${d.slug}`}>{d.playbook}</a> <span class="helpers">{d.helpers.map((h) => <span class="chip">{h}</span>)}</span></p>
+            <ol class="steps">
+              {d.steps.map((s, n) => (
+                <li style={`--n:${n}`}><span class="box" aria-hidden="true"></span><span class="num">{String(n + 1).padStart(2, '0')}</span>{s}</li>
+              ))}
+            </ol>
+            <p class="evidence" style={`--n:${d.steps.length}`}><span>Evidence required</span>{d.evidence}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-demo]').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role=tab]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[role=tabpanel]'));
+    let auto: number | undefined;
+    let current = 0;
+    const select = (i: number, focus = false) => {
+      current = i;
+      tabs.forEach((t, n) => { t.setAttribute('aria-selected', String(n === i)); t.tabIndex = n === i ? 0 : -1; });
+      panels.forEach((p, n) => { p.hidden = n !== i; });
+      const p = panels[i];
+      p.classList.remove('play'); void p.offsetWidth; p.classList.add('play');
+      if (focus) tabs[i].focus();
+    };
+    const stop = () => { if (auto) clearInterval(auto); auto = undefined; };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => { stop(); select(i); });
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault(); stop();
+          select((i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length, true);
+        }
+      });
+    });
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const io = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      select(0);
+      if (!reduce) auto = window.setInterval(() => select((current + 1) % tabs.length), 6500);
+    }, { threshold: 0.35 });
+    io.observe(root);
+    root.addEventListener('pointerdown', stop, { once: true });
+  });
+</script>
+
+<style>
+  .demo { display: grid; gap: 14px; }
+  .tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px; }
+  .tabs::-webkit-scrollbar { display: none; }
+  [role=tab] { flex: none; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-2); font: 500 14px var(--font-sans); cursor: pointer; }
+  [role=tab]:hover { color: var(--ink); border-color: var(--ink-3); }
+  [role=tab][aria-selected='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .window { background: var(--code-bg); color: var(--code-ink); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 30px 60px -30px rgba(40, 20, 0, .45); }
+  .bar { display: flex; align-items: center; gap: 7px; height: 40px; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.14); }
+  .bar span { margin-left: 10px; font: 12px var(--font-mono); color: var(--code-dim); }
+  .panel { padding: clamp(18px, 3vw, 28px); min-height: 410px; font-family: var(--font-mono); font-size: 14px; }
+  .who { flex: none; width: 64px; color: var(--code-dim); font-size: 12.5px; padding-top: 2px; }
+  .you, .route { display: flex; gap: 12px; margin: 0; }
+  .you { padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px dashed rgba(255,255,255,.1); }
+  .you code { font-size: 14px; white-space: normal; }
+  .you b { color: var(--flash); font-weight: 500; }
+  .route-body { min-width: 0; flex: 1; }
+  .picked { margin: 0 0 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .picked a { color: var(--code-bg); background: var(--flash); padding: 2px 8px; border-radius: 6px; text-decoration: none; font-weight: 500; }
+  .helpers { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+  .helpers .chip { border-color: rgba(255,255,255,.18); color: var(--code-dim); height: 24px; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+  .steps li { display: flex; align-items: center; gap: 10px; color: var(--code-ink); }
+  .num { color: var(--code-dim); font-size: 12px; }
+  .box { flex: none; width: 15px; height: 15px; border: 1.5px solid rgba(255,255,255,.3); border-radius: 4px; position: relative; }
+  .evidence { margin: 16px 0 0; padding: 10px 12px; border: 1px solid rgba(255,194,26,.35); border-radius: 8px; color: var(--code-ink); display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; }
+  .evidence span { color: var(--flash); }
+  .panel.play .picked { animation: fade .35s ease both; }
+  .panel.play .steps li { animation: fade .3s ease both; animation-delay: calc(.35s + var(--n) * .18s); }
+  .panel.play .box { animation: check .25s ease both; animation-delay: calc(.9s + var(--n) * .35s); }
+  .panel.play .box::after { content: ''; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: solid var(--code-bg); border-width: 0 2px 2px 0; transform: rotate(45deg); opacity: 0; animation: tick .2s ease both; animation-delay: calc(.95s + var(--n) * .35s); }
+  .panel.play .evidence { animation: fade .4s ease both; animation-delay: calc(1.2s + var(--n) * .35s); }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @keyframes check { to { background: var(--flash); border-color: var(--flash); } }
+  @keyframes tick { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .panel.play * { animation-duration: 1ms !important; animation-delay: 0s !important; }
+  }
+  @media (max-width: 560px) {
+    .you, .route { flex-direction: column; gap: 6px; }
+    .panel { min-height: 520px; font-size: 13px; }
+  }
+</style>

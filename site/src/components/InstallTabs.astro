@@ -1,0 +1,66 @@
+---
+import CopyCommand from './CopyCommand.astro';
+const platforms = [
+  { id: 'claude-code', name: 'Claude Code', local: '.claude/commands/fstack', global: '~/.claude/commands/fstack' },
+  { id: 'cursor', name: 'Cursor', local: '.cursor/skills/fstack', global: '~/.cursor/skills/fstack' },
+  { id: 'codex', name: 'Codex', local: '.codex/skills/fstack', global: '~/.codex/skills/fstack' },
+  { id: 'antigravity', name: 'Antigravity', local: '.antigravity/skills/fstack', global: '~/.antigravity/skills/fstack' },
+  { id: 'opencode', name: 'OpenCode', local: '.opencode/skills/fstack', global: '~/.opencode/skills/fstack' },
+  { id: 'windsurf', name: 'Windsurf', local: '.windsurf/skills/fstack', global: '~/.windsurf/skills/fstack' },
+  { id: 'copilot', name: 'Copilot', local: '.github/copilot/skills/fstack', global: '~/.config/github-copilot/skills/fstack' },
+  { id: 'all', name: 'All detected', local: 'every agent it finds', global: 'every agent it finds' },
+];
+---
+<div class="install" data-install>
+  <div class="tabs" role="tablist" aria-label="Choose your agent">
+    {platforms.map((p, i) => (
+      <button role="tab" type="button" id={`inst-tab-${p.id}`} aria-controls={`inst-panel-${p.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{p.name}</button>
+    ))}
+  </div>
+  {platforms.map((p, i) => (
+    <div class="panel" role="tabpanel" id={`inst-panel-${p.id}`} aria-labelledby={`inst-tab-${p.id}`} hidden={i !== 0}>
+      <CopyCommand cmd={`npx fstack-skills init --platform ${p.id}`} size="lg" />
+      <dl>
+        <div><dt>This project</dt><dd><code>{p.local}</code></dd></div>
+        <div><dt>Every project</dt><dd>add <code>--global</code> → <code>{p.global}</code></dd></div>
+        <div><dt>Update</dt><dd>run again as <code>npx fstack-skills@latest init</code></dd></div>
+      </dl>
+    </div>
+  ))}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-install]').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role=tab]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[role=tabpanel]'));
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, n) => { t.setAttribute('aria-selected', String(n === i)); t.tabIndex = n === i ? 0 : -1; });
+      panels.forEach((p, n) => { p.hidden = n !== i; });
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(i));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          select((i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length, true);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .install { background: var(--bg-raised); border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: clamp(16px, 3vw, 28px); }
+  .tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 18px; }
+  [role=tab] { height: 34px; padding: 0 12px; border-radius: 8px; border: 0; background: transparent; color: var(--ink-2); font: 500 14px var(--font-sans); cursor: pointer; }
+  [role=tab]:hover { background: var(--bg-sunk); color: var(--ink); }
+  [role=tab][aria-selected='true'] { background: var(--bg-sunk); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-strong); }
+  dl { display: grid; margin: 18px 0 0; }
+  dl div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  dl div:last-child { border-bottom: 0; }
+  dt { font: 500 12.5px var(--font-mono); color: var(--ink-3); padding-top: 2px; }
+  dd { margin: 0; font-size: 14.5px; color: var(--ink-2); overflow-wrap: anywhere; }
+  dd code { font-size: 13px; color: var(--ink); }
+  @media (max-width: 480px) { dl div { grid-template-columns: 1fr; gap: 2px; } }
+</style>
