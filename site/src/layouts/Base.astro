@@ -38,9 +38,9 @@ const og = new URL('/og-image.png', Astro.site);
     <meta name="twitter:image" content={og} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script is:inline>
-      var r = document.documentElement; if (!r.classList.contains('force-dark')) { var t = null; try { t = localStorage.getItem('theme'); } catch (e) {} r.dataset.theme = t || 'dark'; }
+      var r = document.documentElement; if (!r.classList.contains('force-dark')) { try { var t = localStorage.getItem('theme'); if (t) r.dataset.theme = t; } catch (e) {} }
     </script>
   </head>
   <body>
@@ -105,7 +105,7 @@ const og = new URL('/og-image.png', Astro.site);
   .skip:focus { left: 8px; }
   .nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid transparent; transition: border-color .2s; }
   .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-  .brand { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-display); font-weight: 500; font-size: 17px; letter-spacing: -0.03em; text-decoration: none; }
+  .brand { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: -0.03em; text-decoration: none; }
   nav[aria-label='Primary'] { display: flex; align-items: center; gap: 4px; }
   nav[aria-label='Primary'] a, .theme { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 12px; border-radius: 9px; text-decoration: none; font-size: 15px; color: var(--ink-2); background: none; border: 0; cursor: pointer; }
   nav[aria-label='Primary'] a:hover, .theme:hover { color: var(--ink); background: var(--bg-sunk); }

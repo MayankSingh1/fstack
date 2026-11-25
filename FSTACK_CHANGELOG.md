@@ -1,5 +1,33 @@
 # fstack Changelog
 
+## 2026-11-25 · Minimal redesign: fstack website home page
+
+**Playbook:** wireframe-to-hifi (direction set without live Awwwards references: awwwards.com reset the connection from this environment)
+
+### Summary
+Replaced the dark "darkroom" home page with a light, minimal "spec sheet" layout built for scanning:
+label-left / content-right sections, one sans typeface, one accent colour, system light/dark.
+
+### Structure
+Hero (headline + install card with agent picker) → stats → How it works (3 steps + router demo)
+→ Why it helps (without/with table) → All 65 skills (role presets, kind filter, search, first 12 then "Show all")
+→ Questions → CTA.
+
+### Removed
+Flash wall, agent marquee, scroll-lit manifesto, before/after stepper, giant wordmark, grain overlay,
+Unbounded and Instrument Serif fonts, `VerifiedStepper.astro`, `InstallTabs.astro`.
+
+### Files changed
+- `site/src/pages/index.astro`
+- `site/src/styles/global.css`, `site/src/layouts/Base.astro`, `site/src/components/RouterDemo.astro`
+- deleted `site/src/components/VerifiedStepper.astro`, `site/src/components/InstallTabs.astro`
+
+### Evidence
+- Page height 11,341px → 4,294px (desktop), 12,583px → 6,259px (390px).
+- Light and dark at 1440 and 390: no horizontal scroll, no console errors.
+- Agent picker updates command, copy target and path; role Frontend → 8, + Helpers → 1, "figma" → 2,
+  no-match → empty state, reset → 65; "Show all" reveals 65.
+
 ## 2026-11-25 · User flows & IA: fstack website home page
 
 **Playbook:** user-flows-ia · **Version:** 1.2.0

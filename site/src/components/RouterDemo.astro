@@ -118,11 +118,11 @@ const demos = [
   [role=tab] { flex: none; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-2); font: 500 14px var(--font-sans); cursor: pointer; }
   [role=tab]:hover { color: var(--ink); border-color: var(--ink-3); }
   [role=tab][aria-selected='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-  .window { background: var(--code-bg); color: var(--code-ink); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 30px 60px -30px rgba(40, 20, 0, .45); }
+  .window { background: var(--code-bg); color: var(--code-ink); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); }
   .bar { display: flex; align-items: center; gap: 7px; height: 40px; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,.07); }
   .bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.14); }
   .bar span { margin-left: 10px; font: 12px var(--font-mono); color: var(--code-dim); }
-  .panel { padding: clamp(18px, 3vw, 28px); min-height: 410px; font-family: var(--font-mono); font-size: 14px; }
+  .panel { padding: clamp(18px, 3vw, 28px); min-height: 360px; font-family: var(--font-mono); font-size: 14px; }
   .who { flex: none; width: 64px; color: var(--code-dim); font-size: 12.5px; padding-top: 2px; }
   .you, .route { display: flex; gap: 12px; margin: 0; }
   .you { padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px dashed rgba(255,255,255,.1); }
