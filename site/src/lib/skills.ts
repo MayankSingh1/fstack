@@ -136,7 +136,11 @@ export function renderMarkdown(src: string): { html: string; headings: Heading[]
     const html = marked.Renderer.prototype.table.call(this, token);
     return `<div class="table-wrap">${html}</div>`;
   };
-  const html = marked.parse(src, { renderer, gfm: true, async: false }) as string;
+  renderer.checkbox = function ({ checked }) {
+    return `<span class="task${checked ? ' done' : ''}" role="img" aria-label="${checked ? 'Done' : 'To do'}"></span>`;
+  };
+  const html = (marked.parse(src, { renderer, gfm: true, async: false }) as string)
+    .replace(/<pre>/g, '<pre tabindex="0">');
   return { html, headings };
 }
 

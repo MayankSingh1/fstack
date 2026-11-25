@@ -1,5 +1,29 @@
 # fstack Changelog
 
+## 2026-11-25 · Site health fixes (accessibility audit)
+
+**Playbook:** accessibility-audit · **Method:** diagnose → fix → re-verify until healthy
+
+### Found
+1. Secondary text (`--ink-3` #7a838a) at 3.56:1 on the page background (WCAG AA needs 4.5:1). Serious, on every page.
+2. Wide code blocks not reachable by keyboard (`scrollable-region-focusable`). Serious.
+3. Markdown task lists rendered unlabeled checkboxes on principle pages (`label`). Critical.
+4. White hero text on the light sky measured as low as ~1.7:1 at cloud highlights; "Popular playbooks" label 4.0:1.
+
+### Fixed
+1. `--ink-3` → #646d74 (4.53–5.27:1 on all light surfaces); hero card greys too.
+2. `<pre tabindex="0">` with a visible focus ring.
+3. Task-list items render as labelled status marks ("To do" / "Done").
+4. Deeper sky with clouds moved away from text, darker lower band, full-white small text, frosted pills behind the label.
+
+### Files changed
+- `site/src/styles/global.css`, `site/src/lib/skills.ts`, `site/src/pages/index.astro`
+
+### Evidence
+- axe-core 4.10 on /, /skills, /docs and 4 skill pages, light and dark: 0 violations (was 3 rules).
+- Hero text, 95th-percentile background: h1 7.2, sub 5.9, link 6.2, label 9.8, CTA 6.2 (light); all ≥5 in dark.
+- 212 internal links and anchors resolve; no console errors; no horizontal scroll at 320, 390, 768, 1440.
+
 ## 2026-11-25 · Redesign after alyn.dev: fstack website
 
 **Playbook:** wireframe-to-hifi · **Reference:** https://alyn.dev/ (inspected: content, computed styles, full-page captures)
