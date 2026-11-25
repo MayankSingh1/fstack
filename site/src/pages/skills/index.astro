@@ -78,7 +78,15 @@ const typeLabel = { router: 'Router', playbook: 'Playbook', helper: 'Helper', pr
   q.addEventListener('input', apply);
   document.getElementById('reset')!.addEventListener('click', () => { q.value = ''; buttons[0].click(); q.focus(); });
   const params = new URLSearchParams(location.search);
+  const wanted = params.get('group') || params.get('type');
+  const match = wanted && buttons.find((b) => b.dataset.filter === wanted);
+  if (match) match.click();
   if (params.get('q')) { q.value = params.get('q')!; apply(); }
+  buttons.forEach((b) => b.addEventListener('click', () => {
+    const u = new URL(location.href);
+    if (filter === 'all') u.searchParams.delete('group'); else u.searchParams.set('group', filter);
+    history.replaceState(null, '', u);
+  }));
 </script>
 
 <style>
